@@ -1,26 +1,20 @@
-/* ============================================================
-   ANIMATIONS.JS — GSAP Next-Level Animations
-   Uses: GSAP 3 + ScrollTrigger + SplitText + CustomEase
-   ============================================================ */
 
-/* ── Wait for GSAP to load then initialize ───────────────── */
 window.addEventListener('load', () => {
   if (typeof gsap === 'undefined') return;
 
   gsap.registerPlugin(ScrollTrigger, CustomEase);
 
-  /* ── Signal that GSAP is loaded — CSS .reveal override activates ─ */
   document.body.classList.add('gsap-loaded');
 
-  /* ── CUSTOM EASES ─────────────────────────────────────── */
+
   CustomEase.create("nexusPop",   "M0,0 C0.08,0.82 0.165,1.5 0.25,1.5 0.35,1.5 0.52,0.9 1,1");
   CustomEase.create("nexusSlide", "M0,0 C0.16,1 0.3,1 1,1");
   CustomEase.create("nexusHeavy", "M0,0 C0.4,0 0.1,1 1,1");
 
-  /* ── GLOBAL DEFAULTS ──────────────────────────────────── */
+
   gsap.defaults({ ease: "nexusSlide", duration: 0.9 });
 
-  /* ── UTILITY: Split text into chars/words ────────────── */
+
   function splitText(el, type = 'chars') {
     if (!el) return [];
     const text = el.textContent;
@@ -41,7 +35,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ── PARTICLE BURST helper ────────────────────────────── */
+ 
   function burstParticles(origin, count = 12, color = '#6c63ff') {
     const rect = origin.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
@@ -67,9 +61,6 @@ window.addEventListener('load', () => {
     }
   }
 
-  /* ══════════════════════════════════════════════════════
-     ① NAVBAR  ——  Slide-down + stagger links
-  ══════════════════════════════════════════════════════ */
   const navbar = document.querySelector('.navbar');
   if (navbar) {
     gsap.from(navbar, {
@@ -87,23 +78,21 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ② HERO SECTION  ——  Cinematic entrance
-  ══════════════════════════════════════════════════════ */
+
   const heroSection = document.querySelector('.hero');
   if (heroSection) {
     const heroTl = gsap.timeline({ delay: 0.6 });
 
-    // Eyebrow badge
+
     heroTl.from('.hero-eyebrow', {
       opacity: 0, y: 30, scale: 0.85,
       ease: 'nexusPop', duration: 0.7
     });
 
-    // H1 — word by word
+
     const h1 = document.querySelector('.hero h1');
     if (h1) {
-      // Find gradient text span and preserve it
+
       const words = h1.querySelectorAll('.gradient-text');
       const plainText = h1.childNodes;
       heroTl.from(h1, {
@@ -128,13 +117,12 @@ window.addEventListener('load', () => {
         duration: 1.1, ease: 'nexusPop'
       }, '-=0.3');
 
-    // Continuous floating
+
     gsap.to('.mockup-shell', {
       y: -14, duration: 3.5, yoyo: true,
       repeat: -1, ease: 'sine.inOut'
     });
 
-    // Orb drift
     gsap.to('.orb-1', {
       x: 40, y: 30, duration: 7, yoyo: true,
       repeat: -1, ease: 'sine.inOut'
@@ -148,7 +136,7 @@ window.addEventListener('load', () => {
       repeat: -1, ease: 'sine.inOut', delay: 4
     });
 
-    // Stat counter animation
+
     document.querySelectorAll('.stat-num').forEach(el => {
       const raw = el.textContent.trim();
       let target, suffix, decimals = 0;
@@ -173,9 +161,6 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ③ SECTION HEADERS  ——  Magnetic reveal on scroll
-  ══════════════════════════════════════════════════════ */
   document.querySelectorAll('.section-label').forEach(el => {
     gsap.from(el, {
       scrollTrigger: { trigger: el, start: 'top 88%', once: true },
@@ -197,9 +182,7 @@ window.addEventListener('load', () => {
     });
   });
 
-  /* ══════════════════════════════════════════════════════
-     ④ FEATURE CARDS  ——  3D flip-in with stagger
-  ══════════════════════════════════════════════════════ */
+
   const featCards = document.querySelectorAll('.feat-card');
   if (featCards.length) {
     gsap.set(featCards, { transformPerspective: 1000 });
@@ -214,7 +197,7 @@ window.addEventListener('load', () => {
       duration: 0.85, ease: 'nexusPop'
     });
 
-    // Hover tilt 3D
+
     featCards.forEach(card => {
       card.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
@@ -234,9 +217,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑤ STEPS  ——  Staggered bounce + connector draw
-  ══════════════════════════════════════════════════════ */
+
   const steps = document.querySelectorAll('.step');
   if (steps.length) {
     gsap.from(steps, {
@@ -262,7 +243,7 @@ window.addEventListener('load', () => {
       });
     }
 
-    // Step number count-up
+
     document.querySelectorAll('.step-num').forEach((el, i) => {
       ScrollTrigger.create({
         trigger: el, start: 'top 85%', once: true,
@@ -276,9 +257,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑥ TOOL TABS  ——  Slide reveal + panel morph
-  ══════════════════════════════════════════════════════ */
+
   const toolTabs = document.querySelectorAll('.tool-tab');
   if (toolTabs.length) {
     gsap.from('.tool-tabs', {
@@ -303,9 +282,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑦ TESTIMONIAL CARDS  ——  Cascade + shimmer
-  ══════════════════════════════════════════════════════ */
+
   const testiCards = document.querySelectorAll('.testi-card');
   if (testiCards.length) {
     gsap.from(testiCards, {
@@ -319,7 +296,6 @@ window.addEventListener('load', () => {
       duration: 0.85, ease: 'nexusPop'
     });
 
-    // Hover shimmer
     testiCards.forEach(card => {
       const shimmer = document.createElement('div');
       shimmer.style.cssText = `
@@ -336,9 +312,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑧ PRICING CARDS  ——  Zoom-rise with glow pulse
-  ══════════════════════════════════════════════════════ */
+
   const priceCards = document.querySelectorAll('.price-card, .pricing-card-full');
   if (priceCards.length) {
     gsap.from(priceCards, {
@@ -362,9 +336,6 @@ window.addEventListener('load', () => {
     }
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑨ CTA BANNER  ——  Magnetic scale + gradient sweep
-  ══════════════════════════════════════════════════════ */
   const ctaBanner = document.querySelector('.cta-banner');
   if (ctaBanner) {
     gsap.from(ctaBanner, {
@@ -393,9 +364,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑩ FOOTER  ——  Elegant stagger reveal
-  ══════════════════════════════════════════════════════ */
+ 
   const footer = document.querySelector('.footer, footer');
   if (footer) {
     gsap.from('.footer-grid > div', {
@@ -408,9 +377,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑪ SCROLL PARALLAX  ——  Layered depth
-  ══════════════════════════════════════════════════════ */
+
   gsap.to('.orb-1', {
     scrollTrigger: { scrub: 1.5 },
     y: -200
@@ -428,9 +395,7 @@ window.addEventListener('load', () => {
     y: 60, opacity: 0.3
   });
 
-  /* ══════════════════════════════════════════════════════
-     ⑫ MOCK UI  ——  Sequential stagger build
-  ══════════════════════════════════════════════════════ */
+
   const mockup = document.querySelector('.hero-visual');
   if (mockup) {
     gsap.from('.mock-nav-item', {
@@ -450,9 +415,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑬ PILLAR CARDS (features page)
-  ══════════════════════════════════════════════════════ */
+
   const pillars = document.querySelectorAll('.pillar-card');
   if (pillars.length) {
     gsap.set(pillars, { transformPerspective: 1000 });
@@ -478,9 +441,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑭ DEEP FEATURES (features page)
-  ══════════════════════════════════════════════════════ */
+
   document.querySelectorAll('.deep-feature').forEach((section, i) => {
     const content = section.querySelector('.deep-content');
     const visual  = section.querySelector('.deep-visual');
@@ -509,9 +470,7 @@ window.addEventListener('load', () => {
     }
   });
 
-  /* ══════════════════════════════════════════════════════
-     ⑮ COMPARE TABLE (features page)
-  ══════════════════════════════════════════════════════ */
+
   const compareWrap = document.querySelector('.compare-wrap');
   if (compareWrap) {
     gsap.from(compareWrap, {
@@ -524,9 +483,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑯ INTEGRATION CARDS  ——  Cascade orbit-in
-  ══════════════════════════════════════════════════════ */
+
   const integrations = document.querySelectorAll('.integration-card');
   if (integrations.length) {
     gsap.from(integrations, {
@@ -550,9 +507,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑰ FAQ ACCORDION (pricing page)  ——  Smooth expand
-  ══════════════════════════════════════════════════════ */
+
   document.querySelectorAll('.faq-item').forEach(item => {
     gsap.from(item, {
       scrollTrigger: { trigger: item, start: 'top 90%', once: true },
@@ -560,9 +515,7 @@ window.addEventListener('load', () => {
     });
   });
 
-  /* ══════════════════════════════════════════════════════
-     ⑱ ENTERPRISE BANNER (pricing page)
-  ══════════════════════════════════════════════════════ */
+
   const entBanner = document.querySelector('.enterprise-banner');
   if (entBanner) {
     gsap.from(entBanner, {
@@ -579,9 +532,7 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑲ PAGE HERO (inner pages)  ——  Cinematic title
-  ══════════════════════════════════════════════════════ */
+
   const pageHero = document.querySelector('.page-hero');
   if (pageHero) {
     const tl = gsap.timeline({ delay: 0.5 });
@@ -592,9 +543,7 @@ window.addEventListener('load', () => {
       .from('.page-hero p', { opacity: 0, y: 25, duration: 0.7 }, '-=0.4');
   }
 
-  /* ══════════════════════════════════════════════════════
-     ⑳ MAGNETIC BUTTONS  ——  Cursor attraction
-  ══════════════════════════════════════════════════════ */
+
   document.querySelectorAll('.btn-primary, .btn.btn-primary').forEach(btn => {
     btn.addEventListener('mousemove', e => {
       const rect = btn.getBoundingClientRect();
@@ -613,9 +562,7 @@ window.addEventListener('load', () => {
     });
   });
 
-  /* ══════════════════════════════════════════════════════
-     ㉑ SOCIAL BUTTONS  ——  Hover bounce
-  ══════════════════════════════════════════════════════ */
+
   document.querySelectorAll('.social-btn').forEach(btn => {
     btn.addEventListener('mouseenter', () => {
       gsap.to(btn, { y: -4, scale: 1.15, duration: 0.3, ease: 'nexusPop' });
@@ -625,9 +572,7 @@ window.addEventListener('load', () => {
     });
   });
 
-  /* ══════════════════════════════════════════════════════
-     ㉒ SCROLL PROGRESS BAR
-  ══════════════════════════════════════════════════════ */
+
   const progressBar = document.createElement('div');
   progressBar.style.cssText = `
     position:fixed;top:70px;left:0;right:0;height:2px;z-index:600;
@@ -642,9 +587,7 @@ window.addEventListener('load', () => {
     scrollTrigger: { scrub: 0.3, start: 'top top', end: 'bottom bottom' }
   });
 
-  /* ══════════════════════════════════════════════════════
-     ㉓ BADGE / CHIP  ——  Pop-in on scroll
-  ══════════════════════════════════════════════════════ */
+
   document.querySelectorAll('.badge, .mock-chip').forEach(el => {
     gsap.from(el, {
       scrollTrigger: { trigger: el, start: 'top 92%', once: true },
@@ -652,9 +595,7 @@ window.addEventListener('load', () => {
     });
   });
 
-  /* ══════════════════════════════════════════════════════
-     ㉔ DIVIDER  ——  Expand from center
-  ══════════════════════════════════════════════════════ */
+
   document.querySelectorAll('.divider').forEach(el => {
     gsap.from(el, {
       scrollTrigger: { trigger: el, start: 'top 90%', once: true },
@@ -662,9 +603,7 @@ window.addEventListener('load', () => {
     });
   });
 
-  /* ══════════════════════════════════════════════════════
-     ㉕ FOOTER LOGO  ——  Glow pulse
-  ══════════════════════════════════════════════════════ */
+
   gsap.to('.nav-logo-icon', {
     boxShadow: '0 0 20px rgba(108,99,255,0.7), 0 0 40px rgba(0,229,255,0.3)',
     duration: 1.8, yoyo: true, repeat: -1, ease: 'sine.inOut'

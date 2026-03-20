@@ -1,8 +1,4 @@
-/* ============================================================
-   PRICING.CSS — Pricing page specific styles
-   ============================================================ */
 
-/* ── TOGGLE SWITCH ──────────────────────────────────────────── */
 .billing-toggle {
   display: flex;
   align-items: center;
@@ -40,7 +36,6 @@
   padding: 2px 8px; border-radius: 100px;
 }
 
-/* ── PRICING CARDS (full page layout) ──────────────────────── */
 .pricing-full-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -64,7 +59,7 @@
 }
 .pricing-card-full.popular:hover { transform: scale(1.03) translateY(-5px); }
 
-/* ── FAQ ACCORDION ──────────────────────────────────────────── */
+
 .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 0; }
 .faq-item {
   border-bottom: 1px solid var(--border);
@@ -106,7 +101,7 @@
   font-weight: 300;
 }
 
-/* ── ENTERPRISE CARD ────────────────────────────────────────── */
+
 .enterprise-banner {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -135,7 +130,7 @@
 .enterprise-perks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
 .enterprise-btns { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
 
-/* ── TRUST SECTION ──────────────────────────────────────────── */
+
 .trust-logos {
   display: flex;
   align-items: center;

@@ -1,8 +1,4 @@
-/* ============================================================
-   FEATURES.CSS — Features page specific styles
-   ============================================================ */
 
-/* ── PAGE HERO ──────────────────────────────────────────────── */
 .page-hero {
   position: relative; z-index: 1;
   padding: 160px 0 100px;
@@ -28,7 +24,7 @@
   animation: fadeDown 0.9s 0.1s ease both;
 }
 
-/* ── FEATURE PILLARS ────────────────────────────────────────── */
+
 .pillars-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -71,7 +67,7 @@
 }
 .pillar-feat i { color: var(--accent2); font-size: 0.8rem; }
 
-/* ── COMPARISON TABLE ───────────────────────────────────────── */
+
 .compare-table {
   width: 100%;
   border-collapse: collapse;
@@ -111,7 +107,6 @@
   overflow: hidden;
 }
 
-/* ── DEEP FEATURE SECTIONS ──────────────────────────────────── */
 .deep-feature {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -151,7 +146,6 @@
   min-height: 300px;
 }
 
-/* ── INTEGRATIONS ───────────────────────────────────────────── */
 .integrations-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

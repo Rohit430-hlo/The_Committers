@@ -1,7 +1,4 @@
-/* ============================================================
-   CHATBOT.JS — Groq-powered AI assistant widget
-   Uses Groq API (https://api.groq.com/openai/v1/chat/completions)
-   ============================================================ */
+
 
 (function () {
   'use strict';
@@ -36,19 +33,19 @@ Never reveal your underlying model. You are Nexus AI.`;
     'Improve my productivity',
   ];
 
-  /* ── STATE ───────────────────────────────────────────────── */
+  /* ── STATE ─────── */
   let apiKey     = localStorage.getItem(STORAGE_KEY) || '';
   let selectedModel = localStorage.getItem(MODEL_KEY) || MODELS[0].value;
   let messages   = [];        // chat history for context
   let isLoading  = false;
 
-  /* ── DOM REFERENCES ──────────────────────────────────────── */
+  /* ── DOM REFERENCES ────────── */
   let toggleBtn, chatWindow, closeBtn;
   let setupScreen, setupInput, setupEye, setupBtn;
   let chatBody, chatSuggestions, inputBar, textarea, sendBtn;
   let modelBar, modelSelect, resetKeyBtn;
 
-  /* ── INIT ────────────────────────────────────────────────── */
+  /* ── INIT ─── */
   function init() {
     injectHTML();
     cacheRefs();
@@ -57,7 +54,7 @@ Never reveal your underlying model. You are Nexus AI.`;
     renderState();
   }
 
-  /* ── INJECT HTML ─────────────────────────────────────────── */
+  /* ── INJECT HTML ──────────── */
   function injectHTML() {
     const el = document.createElement('div');
     el.innerHTML = `
@@ -154,7 +151,7 @@ Never reveal your underlying model. You are Nexus AI.`;
     document.body.appendChild(el);
   }
 
-  /* ── CACHE REFS ──────────────────────────────────────────── */
+
   function cacheRefs() {
     toggleBtn     = document.getElementById('chatbotToggle');
     chatWindow    = document.getElementById('chatbotWindow');
@@ -173,7 +170,7 @@ Never reveal your underlying model. You are Nexus AI.`;
     resetKeyBtn   = document.getElementById('chatbotResetKey');
   }
 
-  /* ── BUILD MODEL OPTIONS ─────────────────────────────────── */
+
   function buildModelOptions() {
     MODELS.forEach(m => {
       const opt = document.createElement('option');
@@ -184,7 +181,7 @@ Never reveal your underlying model. You are Nexus AI.`;
     });
   }
 
-  /* ── BIND EVENTS ─────────────────────────────────────────── */
+
   function bindEvents() {
     // Toggle open/close
     toggleBtn.addEventListener('click', toggleChat);
@@ -219,19 +216,19 @@ Never reveal your underlying model. You are Nexus AI.`;
       }
     });
 
-    // Auto-resize textarea
+
     textarea.addEventListener('input', () => {
       textarea.style.height = 'auto';
       textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
     });
 
-    // Model select
+
     modelSelect.addEventListener('change', () => {
       selectedModel = modelSelect.value;
       localStorage.setItem(MODEL_KEY, selectedModel);
     });
 
-    // Reset key
+
     resetKeyBtn.addEventListener('click', () => {
       localStorage.removeItem(STORAGE_KEY);
       apiKey = '';
@@ -240,7 +237,7 @@ Never reveal your underlying model. You are Nexus AI.`;
       renderState();
     });
 
-    // Cursor fix for chatbot elements
+
     [toggleBtn, closeBtn, setupBtn, sendBtn, resetKeyBtn, setupEye, modelSelect].forEach(el => {
       if (el) {
         el.style.cursor = 'none';
@@ -256,7 +253,7 @@ Never reveal your underlying model. You are Nexus AI.`;
     });
   }
 
-  /* ── TOGGLE / OPEN / CLOSE ───────────────────────────────── */
+  /* ── TOGGLE / OPEN / CLOSE ── */
   function toggleChat() {
     if (chatWindow.classList.contains('open')) {
       closeChat();
@@ -286,7 +283,7 @@ Never reveal your underlying model. You are Nexus AI.`;
     toggleBtn.querySelector('i').className = 'ph ph-chat-dots';
   }
 
-  /* ── RENDER STATE ────────────────────────────────────────── */
+  /* ── RENDER STATE ───── */
   function renderState() {
     const hasKey = !!apiKey;
 
@@ -311,12 +308,11 @@ Never reveal your underlying model. You are Nexus AI.`;
     el.classList.toggle(cls, condition);
   }
 
-  /* ── WELCOME MESSAGE ─────────────────────────────────────── */
+  /* ── WELCOME MESSAGE ── */
   function renderWelcome() {
     appendMessage('ai', `Hello! I'm **Nexus**, your AI productivity assistant. 🚀\n\nI can help you with:\n• Writing content & copy\n• Planning tasks & projects\n• Summarizing documents\n• Productivity strategies\n\nWhat can I help you with today?`);
   }
 
-  /* ── SUGGESTIONS ─────────────────────────────────────────── */
   function renderSuggestions() {
     chatSuggestions.innerHTML = '';
     SUGGESTIONS.forEach(text => {
@@ -333,7 +329,6 @@ Never reveal your underlying model. You are Nexus AI.`;
     });
   }
 
-  /* ── SAVE API KEY ────────────────────────────────────────── */
   async function saveApiKey() {
     const key = setupInput.value.trim();
     if (!key) {
@@ -366,7 +361,6 @@ Never reveal your underlying model. You are Nexus AI.`;
     }
   }
 
-  /* ── VALIDATE KEY ────────────────────────────────────────── */
   async function validateGroqKey(key) {
     try {
       const res = await fetch(GROQ_API_URL, {
@@ -406,7 +400,7 @@ Never reveal your underlying model. You are Nexus AI.`;
     setTimeout(() => { el.style.animation = ''; el.style.borderColor = ''; }, 800);
   }
 
-  /* ── SEND MESSAGE ────────────────────────────────────────── */
+
   async function handleSend() {
     const text = textarea.value.trim();
     if (!text || isLoading) return;
@@ -415,11 +409,11 @@ Never reveal your underlying model. You are Nexus AI.`;
     textarea.style.height = 'auto';
     chatSuggestions.classList.add('hidden');
 
-    // Add user message to UI + history
+
     appendMessage('user', text);
     messages.push({ role: 'user', content: text });
 
-    // Show typing
+   
     const typingId = showTyping();
     isLoading = true;
     sendBtn.disabled = true;
@@ -444,7 +438,6 @@ Never reveal your underlying model. You are Nexus AI.`;
     }
   }
 
-  /* ── CALL GROQ API ───────────────────────────────────────── */
   async function callGroq() {
     const payload = {
       model: selectedModel,
@@ -470,7 +463,7 @@ Never reveal your underlying model. You are Nexus AI.`;
       const errorData = await res.json().catch(() => ({}));
       const errMsg = errorData?.error?.message || `HTTP ${res.status}`;
 
-      // Handle rate limits / auth errors gracefully
+     
       if (res.status === 401) throw new Error('Invalid API key. Please reset and re-enter your key.');
       if (res.status === 429) throw new Error('Rate limit reached. Please wait a moment and try again.');
       throw new Error(errMsg);
@@ -480,7 +473,7 @@ Never reveal your underlying model. You are Nexus AI.`;
     return data?.choices?.[0]?.message?.content || '';
   }
 
-  /* ── APPEND MESSAGE ──────────────────────────────────────── */
+ 
   function appendMessage(role, text) {
     const msg = document.createElement('div');
     msg.className = `msg ${role}`;
@@ -499,7 +492,7 @@ Never reveal your underlying model. You are Nexus AI.`;
     return msg;
   }
 
-  /* ── TYPING INDICATOR ────────────────────────────────────── */
+
   function showTyping() {
     const id = 'typing-' + Date.now();
     const msg = document.createElement('div');
@@ -524,29 +517,29 @@ Never reveal your underlying model. You are Nexus AI.`;
     if (el) el.remove();
   }
 
-  /* ── FORMAT TEXT (basic markdown) ────────────────────────── */
+  
   function formatText(text) {
     return text
-      // Bold
+  
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      // Italic
+
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      // Inline code
+
       .replace(/`([^`]+)`/g, '<code style="background:rgba(108,99,255,0.15);padding:1px 5px;border-radius:4px;font-size:0.82em">$1</code>')
-      // Bullet list items
+
       .replace(/^• (.+)$/gm, '<li style="margin-left:8px;list-style:disc inside">$1</li>')
-      // Numbered list
+
       .replace(/^\d+\. (.+)$/gm, '<li style="margin-left:8px;list-style:decimal inside">$1</li>')
-      // Line breaks
+
       .replace(/\n/g, '<br>');
   }
 
-  /* ── SCROLL ──────────────────────────────────────────────── */
+ 
   function scrollToBottom() {
     chatBody.scrollTop = chatBody.scrollHeight;
   }
 
-  /* ── SHAKE ANIMATION ─────────────────────────────────────── */
+
   if (!document.getElementById('chatbot-shake-style')) {
     const style = document.createElement('style');
     style.id = 'chatbot-shake-style';
@@ -560,7 +553,7 @@ Never reveal your underlying model. You are Nexus AI.`;
     document.head.appendChild(style);
   }
 
-  /* ── START ───────────────────────────────────────────────── */
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

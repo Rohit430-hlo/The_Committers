@@ -1,11 +1,8 @@
-/* ============================================================
-   BASE.CSS — Nexus AI Design System
-   Shared variables, reset, typography, utilities
-   ============================================================ */
+
 
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
 
-/* ── DESIGN TOKENS ─────────────────────────────────────────── */
+
 :root {
   --bg:        #0a0a0a;
   --surface:   #111111;
@@ -40,7 +37,6 @@
   --transition:  0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── RESET ──────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -68,13 +64,13 @@ img { max-width: 100%; display: block; }
 button { font-family: var(--font-body); border: none; background: none; }
 ul, ol { list-style: none; }
 
-/* ── SCROLLBAR ──────────────────────────────────────────────── */
+
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: rgba(108,99,255,0.35); border-radius: 100px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(108,99,255,0.6); }
 
-/* ── NOISE TEXTURE ──────────────────────────────────────────── */
+
 body::before {
   content: '';
   position: fixed; inset: 0; z-index: 0;
@@ -83,7 +79,7 @@ body::before {
   opacity: 0.45;
 }
 
-/* ── GRID BACKGROUND ────────────────────────────────────────── */
+
 .grid-bg {
   position: fixed; inset: 0; z-index: 0;
   background-image:
@@ -94,7 +90,7 @@ body::before {
   pointer-events: none;
 }
 
-/* ── GLOW ORBS ──────────────────────────────────────────────── */
+
 .orb {
   position: fixed;
   border-radius: 50%;
@@ -128,7 +124,7 @@ body::before {
   border-color: rgba(0,229,255,0.8);
 }
 
-/* ── TYPOGRAPHY ─────────────────────────────────────────────── */
+
 .display {
   font-family: var(--font-display);
   font-weight: 800;
@@ -168,7 +164,7 @@ body::before {
   max-width: 520px;
 }
 
-/* ── BUTTONS ────────────────────────────────────────────────── */
+/* ── BUTTONS ── */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -201,7 +197,7 @@ body::before {
 }
 .btn-outline:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
 
-/* ── CARDS ──────────────────────────────────────────────────── */
+/* ── CARDS ── */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -213,7 +209,6 @@ body::before {
   transform: translateY(-4px);
 }
 
-/* ── BADGES / CHIPS ─────────────────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -230,7 +225,7 @@ body::before {
 .badge-amber   { background: rgba(251,191,36,0.1);  border: 1px solid rgba(251,191,36,0.3); color: var(--accent4); }
 .badge-green   { background: rgba(52,211,153,0.1);  border: 1px solid rgba(52,211,153,0.3); color: var(--accent5); }
 
-/* ── ICON WRAPPERS ──────────────────────────────────────────── */
+
 .icon-box {
   width: 52px; height: 52px;
   border-radius: 14px;
@@ -245,7 +240,7 @@ body::before {
 .icon-box.amber  { background: rgba(251,191,36,0.1);  border: 1px solid rgba(251,191,36,0.2); color: var(--accent4); }
 .icon-box.green  { background: rgba(52,211,153,0.1);  border: 1px solid rgba(52,211,153,0.2); color: var(--accent5); }
 
-/* ── LAYOUT HELPERS ─────────────────────────────────────────── */
+
 .container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
 .section   { padding: 120px 0; position: relative; z-index: 1; }
 .flex      { display: flex; }
@@ -278,7 +273,7 @@ body::before {
 .floating      { animation: float  4s ease-in-out infinite; }
 .floating-2    { animation: float2 5.5s 1s ease-in-out infinite; }
 
-/* ── PULSE DOT ──────────────────────────────────────────────── */
+
 .pulse-dot {
   width: 7px; height: 7px;
   border-radius: 50%;
@@ -287,7 +282,7 @@ body::before {
 .pulse-dot.purple { background: var(--accent); }
 .pulse-dot.cyan   { background: var(--accent2); }
 
-/* ── PROGRESS BARS ──────────────────────────────────────────── */
+
 .progress-track {
   height: 5px;
   background: rgba(255,255,255,0.07);
@@ -301,17 +296,17 @@ body::before {
   transition: width 1s ease;
 }
 
-/* ── PAGE TRANSITION ────────────────────────────────────────── */
+
 .page-fade { animation: scaleIn 0.5s ease both; }
 
-/* ── DIVIDER ────────────────────────────────────────────────── */
+
 .divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--border), transparent);
   margin: 0;
 }
 
-/* ── RESPONSIVE ─────────────────────────────────────────────── */
+
 @media (max-width: 960px) {
   .container { padding: 0 24px; }
   .section   { padding: 80px 0; }
@@ -364,7 +359,7 @@ body::before {
 }
 .social-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ── SCROLL REVEAL ──────────────────────────────────────────── */
+/* ── SCROLL REVEAL ── */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -374,7 +369,7 @@ body::before {
   opacity: 1;
   transform: translateY(0);
 }
-/* When GSAP is loaded, it handles all animations — override .reveal so it doesn't conflict */
+
 body.gsap-loaded .reveal {
   opacity: 1;
   transform: none;

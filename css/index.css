@@ -1,8 +1,4 @@
-/* ============================================================
-   INDEX.CSS — Homepage specific styles
-   ============================================================ */
 
-/* ── HERO ───────────────────────────────────────────────────── */
 .hero {
   position: relative; z-index: 1;
   min-height: 100vh;
@@ -59,7 +55,7 @@
   animation: fadeDown 1s 0.3s ease both;
 }
 
-/* ── Hero Stats ─────────────────────────────────────────────── */
+/* ── Hero Stats ──── */
 .hero-stats {
   display: flex;
   gap: 48px;
@@ -84,7 +80,7 @@
 }
 .stat-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.04em; margin-top: 4px; }
 
-/* ── Hero Mockup ────────────────────────────────────────────── */
+
 .hero-visual {
   position: relative; z-index: 1;
   margin-top: 80px;
@@ -184,7 +180,7 @@
   vertical-align: middle; margin-left: 3px;
 }
 
-/* ── FEATURES ───────────────────────────────────────────────── */
+/* ── FEATURES ─ */
 .features-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

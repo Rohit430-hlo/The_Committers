@@ -1,6 +1,4 @@
-/* ============================================================
-   NAV.CSS — Top navigation bar styles
-   ============================================================ */
+
 
 .navbar {
   position: fixed;
@@ -21,7 +19,7 @@
   background: rgba(5, 5, 10, 0.92);
 }
 
-/* ── Logo ─────────────────────────────────────────────────── */
+/* ── Logo ─── */
 .nav-logo {
   display: flex;
   align-items: center;
@@ -44,7 +42,7 @@
 }
 .nav-logo span { color: var(--accent2); }
 
-/* ── Links ────────────────────────────────────────────────── */
+/* ── Links ─── */
 .nav-links {
   display: flex;
   align-items: center;
@@ -78,14 +76,14 @@
   transform: scaleX(1);
 }
 
-/* ── CTA area ─────────────────────────────────────────────── */
+
 .nav-cta {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-/* ── Mobile hamburger ─────────────────────────────────────── */
+
 .nav-hamburger {
   display: none;
   flex-direction: column;
