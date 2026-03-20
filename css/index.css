@@ -450,15 +450,30 @@
 
 
 
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .testi-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .mockup-body { grid-template-columns: 180px 1fr; }
+}
+
+@media (max-width: 768px) {
   .features-grid { grid-template-columns: 1fr; }
   .feat-card.featured { grid-column: span 1; }
   .steps-wrap { grid-template-columns: 1fr; gap: 48px; }
   .steps-line { display: none; }
-  .tools-layout { grid-template-columns: 1fr; }
+  .tools-layout { grid-template-columns: 1fr; gap: 40px; }
   .testi-grid { grid-template-columns: 1fr; }
   .pricing-grid { grid-template-columns: 1fr; }
   .cta-banner { padding: 48px 24px; }
   .mockup-body { grid-template-columns: 1fr; }
   .mock-sidebar { display: none; }
+}
+
+@media (max-width: 480px) {
+  .hero-actions { flex-direction: column; width: 100%; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+  .cta-actions { flex-direction: column; width: 100%; }
+  .cta-actions .btn { width: 100%; justify-content: center; }
+  .tool-screen { padding: 20px 16px; }
 }
