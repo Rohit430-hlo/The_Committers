@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing — Nexus AI</title>
+  <meta name="description" content="Simple, transparent pricing for every team. Start free, scale when ready." />
+
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
+
+  <!-- GSAP + Plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/pricing.css" />
+  <link rel="stylesheet" href="css/chatbot.css" />
+
+  <style>
+    /* Pricing page-specific overrides */
+    .price-plan   { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    .price-amount { font-family: var(--font-display); font-size: 2.8rem; font-weight: 800; margin: 14px 0 3px; line-height: 1; }
+    .price-amount sup { font-size: 1.1rem; font-weight: 400; vertical-align: super; }
+    .price-period { color: var(--muted); font-size: 0.8rem; margin-bottom: 26px; }
+    .price-feats  { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; list-style: none; }
+    .price-feats li { font-size: 0.86rem; display: flex; align-items: center; gap: 9px; }
+    .price-feats li.on i  { color: var(--accent2); }
+    .price-feats li.off   { color: var(--muted); }
+    .price-feats li.off i { color: var(--muted); }
+    .hidden { display: none !important; }
+    .reveal { opacity:0; transform:translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+  </style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<div class="cursor">
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon"><i class="ph ph-lightning-slash"></i></div>
+    Nexus<span>AI</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="features.html">Features</a></li>
+    <li><a href="pricing.html" class="active">Pricing</a></li>
+    <li><a href="index.html#testi">Reviews</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-cta">
+    <button class="btn btn-ghost hide-mobile">Sign In</button>
+    <button class="btn btn-primary">Get Started Free <i class="ph ph-arrow-right"></i></button>
+  </div>
+  <button class="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile">
+  <a href="index.html">Home</a>
+  <a href="features.html">Features</a>
+  <a href="pricing.html">Pricing</a>
+  <button class="btn btn-primary">Get Started Free <i class="ph ph-arrow-right"></i></button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════ -->
+<div style="position:relative;z-index:1;padding:160px 0 60px;text-align:center">
+  <div class="container">
+    <div class="section-label" style="justify-content:center">
+      <i class="ph ph-star-four"></i> Pricing
+    </div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(2.4rem,6vw,4rem);font-weight:800;letter-spacing:-0.04em;line-height:1.05;animation:fadeDown 0.8s ease both">
+      Simple. <span class="gradient-text">Transparent.</span> Fair.
+    </h1>
+    <p style="color:var(--muted);font-size:1.05rem;max-width:520px;margin:18px auto 0;line-height:1.7;font-weight:300;animation:fadeDown 0.9s 0.1s ease both">
+      Start free today. No credit card required. Upgrade or downgrade at any time with no penalty.
+    </p>
+
+    <!-- Billing Toggle -->
+    <div class="billing-toggle">
+      <span class="toggle-label billing-label active" data-billing="monthly">Monthly</span>
+      <div class="toggle-switch" id="billingToggle">
+        <div class="toggle-thumb"></div>
+      </div>
+      <span class="toggle-label billing-label" data-billing="yearly">Yearly</span>
+      <span class="save-badge"><i class="ph ph-tag"></i> Save 30%</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PRICING CARDS
+══════════════════════════════════════════════════════ -->
+<section style="position:relative;z-index:1;padding:0 0 100px">
+  <div class="container">
+    <div class="pricing-full-grid">
+
+      <!-- Starter -->
+      <div class="pricing-card-full reveal">
+        <div class="price-plan">Starter</div>
+        <div class="price-amount price-monthly"><sup>$</sup>0</div>
+        <div class="price-amount price-yearly hidden"><sup>$</sup>0</div>
+        <div class="price-period">Forever free — no card needed</div>
+        <ul class="price-feats">
+          <li class="on"><i class="ph ph-check-circle"></i> 5,000 AI words per month</li>
+          <li class="on"><i class="ph ph-check-circle"></i> 10 task plans per month</li>
+          <li class="on"><i class="ph ph-check-circle"></i> 3 document summaries</li>
+          <li class="on"><i class="ph ph-check-circle"></i> 1 workspace</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Community support</li>
+          <li class="off"><i class="ph ph-minus-circle"></i> Team collaboration</li>
+          <li class="off"><i class="ph ph-minus-circle"></i> Priority support</li>
+          <li class="off"><i class="ph ph-minus-circle"></i> Brand voice training</li>
+          <li class="off"><i class="ph ph-minus-circle"></i> Custom AI persona</li>
+          <li class="off"><i class="ph ph-minus-circle"></i> API access</li>
+        </ul>
+        <button class="btn-price outline" style="width:100%;padding:13px;border-radius:var(--radius-md);font-size:0.88rem;font-weight:500;cursor:none;transition:var(--transition);font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:7px;background:transparent;border:1px solid var(--border);color:var(--text)">
+          <i class="ph ph-rocket-launch"></i> Get Started Free
+        </button>
+      </div>
+
+      <!-- Pro (popular) -->
+      <div class="pricing-card-full popular reveal">
+        <div class="popular-badge">Most Popular</div>
+        <div class="price-plan">Pro</div>
+        <div class="price-amount price-monthly"><sup>$</sup>19</div>
+        <div class="price-amount price-yearly hidden"><sup>$</sup>13</div>
+        <div class="price-period">
+          <span class="price-monthly">per user / month</span>
+          <span class="price-yearly hidden">per user / month, billed annually</span>
+        </div>
+        <ul class="price-feats">
+          <li class="on"><i class="ph ph-check-circle"></i> Unlimited AI writing</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Unlimited task plans</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Unlimited summaries</li>
+          <li class="on"><i class="ph ph-check-circle"></i> 5 team seats</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Priority support</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Brand voice training</li>
+          <li class="on"><i class="ph ph-check-circle"></i> 10 workspaces</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Native integrations</li>
+          <li class="off"><i class="ph ph-minus-circle"></i> Custom AI persona</li>
+          <li class="off"><i class="ph ph-minus-circle"></i> SSO / Enterprise security</li>
+        </ul>
+        <button class="btn-price filled" style="width:100%;padding:13px;border-radius:var(--radius-md);font-size:0.88rem;font-weight:500;cursor:none;transition:var(--transition);font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(135deg,var(--accent),#8b5cf6);border:none;color:#fff;box-shadow:0 4px 24px rgba(108,99,255,0.38)">
+          <i class="ph ph-rocket-launch"></i> Start Pro Trial
+        </button>
+        <div style="text-align:center;margin-top:12px;font-size:0.74rem;color:var(--muted)">
+          <i class="ph ph-lock-simple"></i> 14-day free trial · No card needed
+        </div>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="pricing-card-full reveal">
+        <div class="price-plan">Enterprise</div>
+        <div class="price-amount" style="font-size:2rem;margin:14px 0 3px;line-height:1;font-family:var(--font-display);font-weight:800">Custom</div>
+        <div class="price-period">volume-based pricing</div>
+        <ul class="price-feats">
+          <li class="on"><i class="ph ph-check-circle"></i> Everything in Pro</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Unlimited team seats</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Custom AI persona &amp; voice</li>
+          <li class="on"><i class="ph ph-check-circle"></i> SSO &amp; advanced security</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Dedicated account manager</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Custom SLA &amp; uptime</li>
+          <li class="on"><i class="ph ph-check-circle"></i> On-premise deployment</li>
+          <li class="on"><i class="ph ph-check-circle"></i> API access (unlimited)</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Custom integrations</li>
+          <li class="on"><i class="ph ph-check-circle"></i> Priority phone support</li>
+        </ul>
+        <button class="btn-price outline" style="width:100%;padding:13px;border-radius:var(--radius-md);font-size:0.88rem;font-weight:500;cursor:none;transition:var(--transition);font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:7px;background:transparent;border:1px solid var(--border);color:var(--text)">
+          Contact Sales <i class="ph ph-arrow-right"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Trust badges -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;margin-top:52px;padding-top:40px;border-top:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:8px;color:var(--muted);font-size:0.82rem">
+        <i class="ph ph-lock-simple" style="color:var(--accent2)"></i> SSL Encrypted
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;color:var(--muted);font-size:0.82rem">
+        <i class="ph ph-arrows-clockwise" style="color:var(--accent2)"></i> Cancel Anytime
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;color:var(--muted);font-size:0.82rem">
+        <i class="ph ph-shield-check" style="color:var(--accent2)"></i> GDPR Compliant
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;color:var(--muted);font-size:0.82rem">
+        <i class="ph ph-medal" style="color:var(--accent2)"></i> SOC 2 Type II
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;color:var(--muted);font-size:0.82rem">
+        <i class="ph ph-currency-circle-dollar" style="color:var(--accent2)"></i> 30-Day Money Back
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     ENTERPRISE BANNER
+══════════════════════════════════════════════════════ -->
+<section style="position:relative;z-index:1;padding:0 0 100px">
+  <div class="container">
+    <div class="enterprise-banner reveal">
+      <div>
+        <div class="enterprise-title">Built for teams at scale</div>
+        <div class="enterprise-desc">Whether you're a startup of 5 or an enterprise of 5,000 — Nexus AI scales with you. Get dedicated onboarding, custom training, and a support team that actually answers.</div>
+        <div class="enterprise-perks">
+          <span class="badge badge-purple"><i class="ph ph-users-three"></i> Unlimited seats</span>
+          <span class="badge badge-cyan"><i class="ph ph-shield-check"></i> Enterprise SSO</span>
+          <span class="badge badge-green"><i class="ph ph-clock"></i> 99.9% uptime SLA</span>
+          <span class="badge badge-amber"><i class="ph ph-headset"></i> Dedicated support</span>
+        </div>
+      </div>
+      <div class="enterprise-btns">
+        <button class="btn btn-primary btn-xl">
+          <i class="ph ph-buildings"></i> Talk to Sales
+        </button>
+        <button class="btn btn-ghost btn-xl">
+          <i class="ph ph-calendar"></i> Book Demo
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     FAQ
+══════════════════════════════════════════════════════ -->
+<section style="position:relative;z-index:1;padding:0 0 120px;border-top:1px solid var(--border)">
+  <div class="container" style="max-width:760px">
+    <div style="padding-top:80px">
+      <div class="section-label" style="justify-content:center"><i class="ph ph-question"></i> FAQ</div>
+      <h2 class="section-title text-center">Frequently asked <span class="gradient-text">questions</span></h2>
+      <div class="faq-list" style="margin-top:48px">
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I try Nexus AI before paying?
+            <i class="ph ph-caret-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes — our Starter plan is free forever, no credit card required. The Pro plan also includes a 14-day free trial with full access to all features, so you can experience everything before committing.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What happens when I hit my free plan limits?
+            <i class="ph ph-caret-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              You'll receive a notification before reaching your limits. Once reached, you can upgrade instantly or wait for the next billing cycle to reset. We never charge you without explicit consent.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I switch plans at any time?
+            <i class="ph ph-caret-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Absolutely. You can upgrade, downgrade, or cancel at any time with no penalties. Upgrades take effect immediately; downgrades take effect at the end of your current billing period.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Is my data secure and private?
+            <i class="ph ph-caret-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              We take data privacy seriously. Your content is encrypted at rest and in transit. We're GDPR compliant, SOC 2 Type II certified, and we never train our models on your private data without explicit permission.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Do you offer discounts for nonprofits or education?
+            <i class="ph ph-caret-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes! We offer 50% discounts for verified nonprofits and educational institutions. Contact our team at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c4aca1a8a8ab84aaa1bcb1b7a5adeaadab">[email&#160;protected]</a> with proof of status to apply.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What payment methods do you accept?
+            <i class="ph ph-caret-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              We accept all major credit and debit cards (Visa, Mastercard, Amex), PayPal, and bank transfers for Enterprise plans. All payments are processed securely via Stripe.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" style="position:relative;z-index:1">
+  <div class="container">
+    <div class="footer-grid" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:52px">
+      <div>
+        <a href="index.html" class="nav-logo" style="margin-bottom:14px;display:inline-flex">
+          <div class="nav-logo-icon"><i class="ph ph-lightning-slash"></i></div>
+          Nexus<span>AI</span>
+        </a>
+        <p style="color:var(--muted);font-size:0.83rem;line-height:1.72;font-weight:300;max-width:240px">AI productivity tools designed for the way modern teams actually think and work.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <ul class="footer-links">
+          <li><a href="features.html">Features</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="#">Changelog</a></li>
+          <li><a href="#">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <ul class="footer-links">
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2025 Nexus AI &middot; All rights reserved.</div>
+      <div class="footer-socials">
+        <a href="#" class="social-btn"><i class="ph ph-x-logo"></i></a>
+        <a href="#" class="social-btn"><i class="ph ph-linkedin-logo"></i></a>
+        <a href="#" class="social-btn"><i class="ph ph-github-logo"></i></a>
+      </div>
+    </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/chatbot.js"></script>
+</body>
+</html>

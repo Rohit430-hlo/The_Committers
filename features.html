@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Features — Nexus AI</title>
+  <meta name="description" content="Explore Nexus AI's powerful writing, task planning, and summarization features." />
+
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
+
+  <!-- GSAP + Plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/features.css" />
+  <link rel="stylesheet" href="css/chatbot.css" />
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<div class="cursor">
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon"><i class="ph ph-lightning-slash"></i></div>
+    Nexus<span>AI</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="features.html" class="active">Features</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="index.html#testi">Reviews</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-cta">
+    <button class="btn btn-ghost hide-mobile">Sign In</button>
+    <button class="btn btn-primary">Get Started Free <i class="ph ph-arrow-right"></i></button>
+  </div>
+  <button class="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile">
+  <a href="index.html">Home</a>
+  <a href="features.html">Features</a>
+  <a href="pricing.html">Pricing</a>
+  <button class="btn btn-primary">Get Started Free <i class="ph ph-arrow-right"></i></button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE HERO
+══════════════════════════════════════════════════════ -->
+<div class="page-hero" style="position:relative;z-index:1">
+  <div class="container">
+    <div class="section-label" style="justify-content:center">
+      <i class="ph ph-star-four"></i> Platform Features
+    </div>
+    <h1>
+      Everything you need to<br>
+      <span class="gradient-text">10x your output</span>
+    </h1>
+    <p>
+      Three powerful AI tools working in harmony to make you the most productive
+      version of yourself — built for individuals, teams, and enterprises.
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PILLARS
+══════════════════════════════════════════════════════ -->
+<section class="section" style="position:relative;z-index:1">
+  <div class="container">
+    <div class="section-label"><i class="ph ph-star-four"></i> Core Pillars</div>
+    <h2 class="section-title">The three engines of <span class="gradient-text">Nexus AI</span></h2>
+    <p class="section-sub">Each tool is a category-leader on its own. Together, they're unstoppable.</p>
+
+    <div class="pillars-grid">
+
+      <!-- Pillar 1: Writing -->
+      <div class="pillar-card reveal">
+        <div class="pillar-icon icon-box purple" style="width:60px;height:60px;font-size:1.6rem">
+          <i class="ph ph-pencil-simple-line"></i>
+        </div>
+        <div class="pillar-title">AI Writing Engine</div>
+        <div class="pillar-desc">Generate any type of content in seconds. From long-form articles to punchy ad copy, the AI writes in your voice and adapts to your brand style guide.</div>
+        <div class="pillar-feats">
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> 30+ content formats</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Brand voice training</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> SEO optimization built-in</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Tone &amp; style controls</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Multi-language support</div>
+        </div>
+      </div>
+
+      <!-- Pillar 2: Tasks -->
+      <div class="pillar-card reveal">
+        <div class="pillar-icon icon-box cyan" style="width:60px;height:60px;font-size:1.6rem">
+          <i class="ph ph-check-square"></i>
+        </div>
+        <div class="pillar-title">Task Planning Engine</div>
+        <div class="pillar-desc">Describe a project in plain English and get a fully scoped task breakdown with dependencies, timelines, and priority scores — automatically.</div>
+        <div class="pillar-feats">
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Natural language input</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Auto-priority scoring</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Dependency mapping</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Calendar sync</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Team assignment</div>
+        </div>
+      </div>
+
+      <!-- Pillar 3: Summarizer -->
+      <div class="pillar-card reveal">
+        <div class="pillar-icon icon-box pink" style="width:60px;height:60px;font-size:1.6rem">
+          <i class="ph ph-lightning"></i>
+        </div>
+        <div class="pillar-title">Smart Summarizer</div>
+        <div class="pillar-desc">Drop any article, PDF, URL, or document — get a crisp, structured summary with key insights, action items, and sentiment analysis in seconds.</div>
+        <div class="pillar-feats">
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> PDF &amp; URL support</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Key insight extraction</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Action item detection</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Sentiment analysis</div>
+          <div class="pillar-feat"><i class="ph ph-check-circle"></i> Export to any format</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     DEEP FEATURE: WRITING
+══════════════════════════════════════════════════════ -->
+<section class="section" style="position:relative;z-index:1;border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="deep-feature reveal">
+      <div class="deep-content">
+        <div class="deep-label section-label"><i class="ph ph-pencil-simple-line"></i> AI Writing</div>
+        <div class="deep-title">Write anything,<br><span class="gradient-text">10x faster</span></div>
+        <div class="deep-desc">Our AI writing engine doesn't just autocomplete — it understands your intent, maintains context, and helps you express ideas you couldn't articulate before.</div>
+        <div class="deep-bullets">
+          <div class="deep-bullet"><i class="ph ph-check-circle"></i> Start with a single sentence and expand into a full article</div>
+          <div class="deep-bullet"><i class="ph ph-check-circle"></i> Train the AI on your existing content for perfect brand voice</div>
+          <div class="deep-bullet"><i class="ph ph-check-circle"></i> Built-in plagiarism checker and readability scoring</div>
+          <div class="deep-bullet"><i class="ph ph-check-circle"></i> Real-time collaboration with your team</div>
+        </div>
+        <div style="margin-top:28px">
+          <button class="btn btn-primary">
+            <i class="ph ph-pencil-simple-line"></i> Try AI Writing
+          </button>
+        </div>
+      </div>
+      <div class="deep-visual">
+        <div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+          <span class="badge badge-purple"><i class="ph ph-pencil-simple-line"></i> Writing Studio</span>
+          <span class="badge badge-cyan"><span class="pulse-dot cyan" style="margin-right:4px"></span> Live</span>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;margin-bottom:14px">
+          <div style="font-size:0.75rem;color:var(--muted);margin-bottom:10px">
+            <i class="ph ph-quote"></i> Prompt
+          </div>
+          <div style="font-size:0.83rem;color:var(--text-secondary)">Write a compelling intro for a blog post about remote work productivity...</div>
+        </div>
+        <div style="background:rgba(108,99,255,0.06);border:1px solid rgba(108,99,255,0.18);border-radius:var(--radius-md);padding:16px">
+          <div style="font-size:0.75rem;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:5px">
+            <i class="ph ph-sparkle"></i> AI Output
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="skeleton accent w100"></div>
+            <div class="skeleton w85"></div>
+            <div class="skeleton w100"></div>
+            <div class="skeleton w70"></div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <span class="badge badge-green" style="font-size:0.7rem"><i class="ph ph-check"></i> Readability: A</span>
+            <span class="badge badge-cyan" style="font-size:0.7rem"><i class="ph ph-trend-up"></i> SEO: 94</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deep: Task Planner -->
+    <div class="deep-feature reverse reveal">
+      <div class="deep-content">
+        <div class="deep-label section-label"><i class="ph ph-check-square"></i> Task Planning</div>
+        <div class="deep-title">From chaos to<br><span class="gradient-text">clarity instantly</span></div>
+        <div class="deep-desc">Stop spending your Monday figuring out what to do. Describe a goal and get a complete, prioritized action plan you can start executing immediately.</div>
+        <div class="deep-bullets">
+          <div class="deep-bullet"><i class="ph ph-check-circle"></i> Convert meeting notes into tasks with one click</div>
+          <div class="deep-bullet"><i class="ph ph-check-circle"></i> AI estimates time and effort for every task</div>
+          <div class="deep-bullet"><i class="ph ph-check-circle"></i> Drag-and-drop Kanban and timeline views</div>
+          <div class="deep-bullet"><i class="ph ph-check-circle"></i> Syncs with Jira, Linear, and Asana</div>
+        </div>
+        <div style="margin-top:28px">
+          <button class="btn btn-primary">
+            <i class="ph ph-check-square"></i> Try Task Planner
+          </button>
+        </div>
+      </div>
+      <div class="deep-visual">
+        <div style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+          <span class="badge badge-cyan"><i class="ph ph-check-square"></i> Sprint Board</span>
+          <span style="font-size:0.75rem;color:var(--muted)">5 tasks · 2 done</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.18);border-radius:10px;padding:11px 14px">
+            <i class="ph ph-check-circle" style="color:var(--accent5);font-size:1rem"></i>
+            <span style="font-size:0.82rem;text-decoration:line-through;color:var(--muted)">User research &amp; interviews</span>
+            <span class="priority high" style="margin-left:auto">High</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.18);border-radius:10px;padding:11px 14px">
+            <i class="ph ph-check-circle" style="color:var(--accent5);font-size:1rem"></i>
+            <span style="font-size:0.82rem;text-decoration:line-through;color:var(--muted)">Competitive analysis</span>
+            <span class="priority med" style="margin-left:auto">Med</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 14px">
+            <i class="ph ph-circle" style="color:var(--muted);font-size:1rem"></i>
+            <span style="font-size:0.82rem">Write product brief</span>
+            <span class="priority high" style="margin-left:auto">High</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 14px">
+            <i class="ph ph-circle" style="color:var(--muted);font-size:1rem"></i>
+            <span style="font-size:0.82rem">Design wireframes</span>
+            <span class="priority low" style="margin-left:auto">Low</span>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 14px;background:rgba(108,99,255,0.08);border-radius:10px;border:1px solid rgba(108,99,255,0.2);font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:8px">
+          <i class="ph ph-sparkle" style="color:var(--accent)"></i>
+          AI suggests: "Start with the product brief before wireframes"
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     COMPARISON TABLE
+══════════════════════════════════════════════════════ -->
+<section class="section" style="position:relative;z-index:1;border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="section-label"><i class="ph ph-star-four"></i> Comparison</div>
+    <h2 class="section-title">Nexus AI vs <span class="gradient-text">the alternatives</span></h2>
+    <p class="section-sub">See why thousands of teams choose Nexus AI over stitching together multiple tools.</p>
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="highlighted">Nexus AI</th>
+            <th>ChatGPT</th>
+            <th>Notion AI</th>
+            <th>Jasper</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feature-name">AI Writing</td>
+            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-check-circle check-yes"></i></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Task Planning</td>
+            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Smart Summarizer</td>
+            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Brand Voice Training</td>
+            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+            <td><i class="ph ph-check-circle check-yes"></i></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Memory &amp; Context</td>
+            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Native Integrations</td>
+            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+            <td><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-check-circle check-yes"></i></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Free Plan</td>
+            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-check-circle check-yes"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+            <td><i class="ph ph-minus-circle check-no"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     INTEGRATIONS
+══════════════════════════════════════════════════════ -->
+<section class="section" style="position:relative;z-index:1;border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="section-label"><i class="ph ph-link"></i> Integrations</div>
+    <h2 class="section-title">Connects with your <span class="gradient-text">entire stack</span></h2>
+    <p class="section-sub">One-click integrations with 50+ tools your team already loves.</p>
+    <div class="integrations-grid">
+      <div class="integration-card reveal">
+        <div class="integration-icon"><i class="ph ph-notion-logo"></i></div>
+        <div class="integration-name">Notion</div>
+      </div>
+      <div class="integration-card reveal">
+        <div class="integration-icon"><i class="ph ph-slack-logo"></i></div>
+        <div class="integration-name">Slack</div>
+      </div>
+      <div class="integration-card reveal">
+        <div class="integration-icon" style="background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.2)">
+          <i class="ph ph-google-drive-logo" style="color:var(--accent5)"></i>
+        </div>
+        <div class="integration-name">Google Drive</div>
+      </div>
+      <div class="integration-card reveal">
+        <div class="integration-icon" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.2)">
+          <i class="ph ph-kanban" style="color:var(--accent4)"></i>
+        </div>
+        <div class="integration-name">Linear</div>
+      </div>
+      <div class="integration-card reveal">
+        <div class="integration-icon" style="background:rgba(255,107,157,0.1);border-color:rgba(255,107,157,0.2)">
+          <i class="ph ph-envelope-simple" style="color:var(--accent3)"></i>
+        </div>
+        <div class="integration-name">Gmail</div>
+      </div>
+      <div class="integration-card reveal">
+        <div class="integration-icon"><i class="ph ph-github-logo"></i></div>
+        <div class="integration-name">GitHub</div>
+      </div>
+      <div class="integration-card reveal">
+        <div class="integration-icon" style="background:rgba(0,229,255,0.1);border-color:rgba(0,229,255,0.2)">
+          <i class="ph ph-table" style="color:var(--accent2)"></i>
+        </div>
+        <div class="integration-name">Airtable</div>
+      </div>
+      <div class="integration-card reveal">
+        <div class="integration-icon"><i class="ph ph-figma-logo"></i></div>
+        <div class="integration-name">Figma</div>
+      </div>
+      <div class="integration-card reveal">
+        <div class="integration-icon" style="background:rgba(108,99,255,0.1);border-color:rgba(108,99,255,0.2)">
+          <i class="ph ph-video-camera" style="color:var(--accent)"></i>
+        </div>
+        <div class="integration-name">Zoom</div>
+      </div>
+      <div class="integration-card reveal">
+        <div class="integration-icon" style="background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.2)">
+          <i class="ph ph-plus-circle" style="color:var(--accent5)"></i>
+        </div>
+        <div class="integration-name">+40 more</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="position:relative;z-index:1">
+  <div class="container">
+    <div class="cta-banner" style="background:linear-gradient(135deg,rgba(108,99,255,0.14),rgba(0,229,255,0.07));border-color:rgba(108,99,255,0.22);border-radius:30px;padding:72px 56px;text-align:center;position:relative;overflow:hidden">
+      <h2 class="display" style="font-size:clamp(1.8rem,4vw,2.6rem)">
+        Ready to try every feature<br><span class="gradient-text">for free?</span>
+      </h2>
+      <p style="color:var(--muted);margin:14px auto 32px;max-width:440px;line-height:1.7;font-weight:300">
+        No credit card required. Full access to all features for 14 days.
+      </p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary btn-xl">
+          <i class="ph ph-rocket-launch"></i> Start Free Trial
+        </button>
+        <a href="pricing.html" class="btn btn-outline btn-xl">
+          View Pricing <i class="ph ph-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <div class="nav-logo-icon"><i class="ph ph-lightning-slash"></i></div>
+          Nexus<span>AI</span>
+        </a>
+        <p class="footer-desc">AI productivity tools designed for the way modern teams actually think and work.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <ul class="footer-links">
+          <li><a href="features.html">AI Writing</a></li>
+          <li><a href="features.html">Task Planner</a></li>
+          <li><a href="features.html">Summarizer</a></li>
+          <li><a href="features.html">Integrations</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <ul class="footer-links">
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2025 Nexus AI &middot; All rights reserved.</div>
+      <div class="footer-socials">
+        <a href="#" class="social-btn"><i class="ph ph-x-logo"></i></a>
+        <a href="#" class="social-btn"><i class="ph ph-linkedin-logo"></i></a>
+        <a href="#" class="social-btn"><i class="ph ph-github-logo"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/chatbot.js"></script>
+</body>
+</html>

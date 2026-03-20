@@ -1,0 +1,162 @@
+/* ============================================================
+   PRICING.CSS — Pricing page specific styles
+   ============================================================ */
+
+/* ── TOGGLE SWITCH ──────────────────────────────────────────── */
+.billing-toggle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 36px;
+}
+.toggle-label { font-size: 0.88rem; color: var(--muted); }
+.toggle-label.active { color: var(--text); font-weight: 500; }
+.toggle-switch {
+  width: 48px; height: 26px;
+  background: rgba(108,99,255,0.2);
+  border: 1px solid rgba(108,99,255,0.35);
+  border-radius: 100px;
+  position: relative;
+  cursor: none;
+  transition: background 0.3s;
+}
+.toggle-switch.yearly { background: rgba(108,99,255,0.4); }
+.toggle-thumb {
+  width: 20px; height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px; left: 2px;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.toggle-switch.yearly .toggle-thumb { transform: translateX(22px); }
+.save-badge {
+  background: rgba(52,211,153,0.15);
+  border: 1px solid rgba(52,211,153,0.3);
+  color: var(--accent5);
+  font-size: 0.7rem; font-weight: 600;
+  padding: 2px 8px; border-radius: 100px;
+}
+
+/* ── PRICING CARDS (full page layout) ──────────────────────── */
+.pricing-full-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+  align-items: start;
+}
+.pricing-card-full {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 40px 30px;
+  position: relative;
+  transition: var(--transition);
+}
+.pricing-card-full:hover { transform: translateY(-5px); border-color: var(--border-hover); }
+.pricing-card-full.popular {
+  border-color: rgba(108,99,255,0.38);
+  background: linear-gradient(160deg, rgba(108,99,255,0.1), var(--surface));
+  transform: scale(1.03);
+}
+.pricing-card-full.popular:hover { transform: scale(1.03) translateY(-5px); }
+
+/* ── FAQ ACCORDION ──────────────────────────────────────────── */
+.faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 0; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 0;
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+  cursor: none;
+  gap: 16px;
+  transition: color 0.2s;
+}
+.faq-question:hover { color: var(--accent2); }
+.faq-question i {
+  font-size: 0.85rem;
+  color: var(--muted);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-question i { transform: rotate(180deg); color: var(--accent2); }
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+}
+.faq-item.open .faq-answer { max-height: 300px; }
+.faq-answer-inner {
+  padding-bottom: 22px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+/* ── ENTERPRISE CARD ────────────────────────────────────────── */
+.enterprise-banner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(108,99,255,0.12), rgba(0,229,255,0.06));
+  border: 1px solid rgba(108,99,255,0.25);
+  border-radius: 24px;
+  padding: 52px 56px;
+  margin-top: 48px;
+  position: relative;
+  overflow: hidden;
+}
+.enterprise-banner::before {
+  content: '';
+  position: absolute; top: -40%; right: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(108,99,255,0.1), transparent 70%);
+}
+.enterprise-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem; font-weight: 800; letter-spacing: -0.03em;
+  margin-bottom: 10px;
+}
+.enterprise-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; font-weight: 300; max-width: 480px; }
+.enterprise-perks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.enterprise-btns { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+
+/* ── TRUST SECTION ──────────────────────────────────────────── */
+.trust-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+.trust-logo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+@media (max-width: 960px) {
+  .pricing-full-grid { grid-template-columns: 1fr; }
+  .pricing-card-full.popular { transform: none; }
+  .pricing-card-full.popular:hover { transform: translateY(-5px); }
+  .enterprise-banner { grid-template-columns: 1fr; gap: 32px; padding: 36px 28px; }
+}
