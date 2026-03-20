@@ -98,7 +98,7 @@
       </button>
       <button id="theme-toggle" data-tooltip="Toggle theme (T)"><i class="ph ph-sun"></i></button>
       <button class="btn btn-ghost hide-mobile">Sign In</button>
-      <button class="btn btn-primary">Get Started Free <i class="ph ph-arrow-right"></i></button>
+      <button class="btn btn-primary" onclick="window.NexusToast && window.NexusToast.show('Opening registration...', 'success')">Get Started Free <i class="ph ph-arrow-right"></i></button>
     </div>
 
     <button class="nav-hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
@@ -109,7 +109,7 @@
     <a href="features.html">Features</a>
     <a href="pricing.html">Pricing</a>
     <a href="#demo">Live Demo</a>
-    <button class="btn btn-primary">Get Started Free <i class="ph ph-arrow-right"></i></button>
+    <button class="btn btn-primary" onclick="window.NexusToast && window.NexusToast.show('Opening registration...', 'success')">Get Started Free <i class="ph ph-arrow-right"></i></button>
   </div>
 
   <!-- COMMAND PALETTE -->
@@ -187,7 +187,7 @@
     </div>
 
     <div class="hero-actions">
-      <button class="btn btn-primary btn-xl">
+      <button class="btn btn-primary btn-xl" onclick="window.NexusToast && window.NexusToast.show('Creating your free account...', 'success')">
         <i class="ph ph-rocket-launch"></i> Start for Free
       </button>
       <button class="btn btn-outline btn-xl" data-open-modal="video">
@@ -346,31 +346,60 @@
         <h2 class="section-title reveal">See the <span class="gradient-text">transformation</span></h2>
         <p class="section-sub reveal" style="margin:14px auto 0">Drag the slider to compare your workflow before and after Nexus AI.</p>
       </div>
-      <div class="ba-slider reveal" style="height:300px;background:var(--surface)">
-        <div class="ba-before" style="background:var(--surface2)">
-          <div style="padding:28px;height:100%;display:flex;flex-direction:column;gap:12px">
-            <div style="font-size:0.75rem;color:var(--muted);font-weight:600;letter-spacing:0.08em;text-transform:uppercase">Before Nexus AI</div>
-            <div style="display:flex;flex-direction:column;gap:9px;opacity:0.7">
-              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem;color:var(--muted)"><i class="ph ph-x-circle" style="color:var(--accent3)"></i> 3 hrs to write a blog post</div>
-              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem;color:var(--muted)"><i class="ph ph-x-circle" style="color:var(--accent3)"></i> Monday planning takes 2 hours</div>
-              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem;color:var(--muted)"><i class="ph ph-x-circle" style="color:var(--accent3)"></i> Reading 40-page reports manually</div>
-              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem;color:var(--muted)"><i class="ph ph-x-circle" style="color:var(--accent3)"></i> 5 different tools for one workflow</div>
+      <div class="ba-slider reveal" style="height:320px;">
+        
+        <!-- BASE LAYER (Left Side / Before State) -->
+        <div class="ba-before">
+          <div class="ba-text-grid">
+            <div class="ba-col ba-col-left">
+              <div class="ba-col-title">Before Nexus AI</div>
+              <div class="ba-col-items">
+                <div class="ba-item"><i class="ph ph-x-circle"></i> 3 hrs to write a blog post</div>
+                <div class="ba-item"><i class="ph ph-x-circle"></i> Monday planning takes 2 hours</div>
+                <div class="ba-item"><i class="ph ph-x-circle"></i> Reading 40-page reports manually</div>
+                <div class="ba-item"><i class="ph ph-x-circle"></i> 5 different tools for one workflow</div>
+              </div>
+              <div class="ba-tag"><i class="ph ph-clock"></i> 6+ hours/day on busy work</div>
             </div>
-            <div class="ba-label" style="margin-top:auto"><i class="ph ph-clock"></i> 6+ hours/day on busy work</div>
+            <div class="ba-col ba-col-right">
+              <div class="ba-col-title">After Nexus AI</div>
+              <div class="ba-col-items">
+                <div class="ba-item"><i class="ph ph-check-circle"></i> Blog post in 8 minutes, AI-written</div>
+                <div class="ba-item"><i class="ph ph-check-circle"></i> Full week plan in 30 seconds</div>
+                <div class="ba-item"><i class="ph ph-check-circle"></i> 40-page doc summarized in 12 sec</div>
+                <div class="ba-item"><i class="ph ph-check-circle"></i> Everything in one unified workspace</div>
+              </div>
+              <div class="ba-tag"><i class="ph ph-lightning"></i> 45 min/day on what matters</div>
+            </div>
           </div>
         </div>
-        <div class="ba-after" style="background:linear-gradient(135deg,rgba(108,99,255,0.1),var(--surface))">
-          <div style="padding:28px;height:100%;display:flex;flex-direction:column;gap:12px">
-            <div style="font-size:0.75rem;color:var(--accent2);font-weight:600;letter-spacing:0.08em;text-transform:uppercase">After Nexus AI</div>
-            <div style="display:flex;flex-direction:column;gap:9px">
-              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem"><i class="ph ph-check-circle" style="color:var(--accent5)"></i> Blog post in 8 minutes, AI-written</div>
-              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem"><i class="ph ph-check-circle" style="color:var(--accent5)"></i> Full week plan in 30 seconds</div>
-              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem"><i class="ph ph-check-circle" style="color:var(--accent5)"></i> 40-page doc summarized in 12 sec</div>
-              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem"><i class="ph ph-check-circle" style="color:var(--accent5)"></i> Everything in one unified workspace</div>
+        
+        <!-- TOP LAYER (Right Side / After State) -->
+        <div class="ba-after">
+          <div class="ba-text-grid">
+            <div class="ba-col ba-col-left">
+              <div class="ba-col-title">Before Nexus AI</div>
+              <div class="ba-col-items">
+                <div class="ba-item"><i class="ph ph-x-circle"></i> 3 hrs to write a blog post</div>
+                <div class="ba-item"><i class="ph ph-x-circle"></i> Monday planning takes 2 hours</div>
+                <div class="ba-item"><i class="ph ph-x-circle"></i> Reading 40-page reports manually</div>
+                <div class="ba-item"><i class="ph ph-x-circle"></i> 5 different tools for one workflow</div>
+              </div>
+              <div class="ba-tag"><i class="ph ph-clock"></i> 6+ hours/day on busy work</div>
             </div>
-            <div class="ba-label" style="margin-top:auto;border-color:rgba(52,211,153,0.3);color:var(--accent5)"><i class="ph ph-lightning"></i> 45 min/day on what matters</div>
+            <div class="ba-col ba-col-right">
+              <div class="ba-col-title">After Nexus AI</div>
+              <div class="ba-col-items">
+                <div class="ba-item"><i class="ph ph-check-circle"></i> Blog post in 8 minutes, AI-written</div>
+                <div class="ba-item"><i class="ph ph-check-circle"></i> Full week plan in 30 seconds</div>
+                <div class="ba-item"><i class="ph ph-check-circle"></i> 40-page doc summarized in 12 sec</div>
+                <div class="ba-item"><i class="ph ph-check-circle"></i> Everything in one unified workspace</div>
+              </div>
+              <div class="ba-tag"><i class="ph ph-lightning"></i> 45 min/day on what matters</div>
+            </div>
           </div>
         </div>
+        
         <div class="ba-handle"><div class="ba-handle-circle"><i class="ph ph-arrows-horizontal"></i></div></div>
       </div>
     </div>
@@ -539,9 +568,9 @@
         <p class="section-sub" style="margin:14px auto 0">Start free, scale as you grow. No hidden fees, no credit card required.</p>
       </div>
       <div class="pricing-grid">
-        <div class="price-card reveal"><div class="price-plan">Starter</div><div class="price-amount"><sup>$</sup>0</div><div class="price-period">Forever free</div><ul class="price-feats"><li class="on"><i class="ph ph-check-circle"></i> 5,000 AI words / month</li><li class="on"><i class="ph ph-check-circle"></i> 10 task plans / month</li><li class="on"><i class="ph ph-check-circle"></i> 3 document summaries</li><li class="off"><i class="ph ph-minus-circle"></i> Team collaboration</li><li class="off"><i class="ph ph-minus-circle"></i> Priority support</li></ul><button class="btn-price outline">Get Started Free</button></div>
-        <div class="price-card popular reveal"><span class="popular-label">Most Popular</span><div class="price-plan">Pro</div><div class="price-amount"><sup>$</sup>19</div><div class="price-period">per user / month</div><ul class="price-feats"><li class="on"><i class="ph ph-check-circle"></i> Unlimited AI writing</li><li class="on"><i class="ph ph-check-circle"></i> Unlimited task plans</li><li class="on"><i class="ph ph-check-circle"></i> Unlimited summaries</li><li class="on"><i class="ph ph-check-circle"></i> Team collaboration (5 seats)</li><li class="on"><i class="ph ph-check-circle"></i> Priority support</li></ul><button class="btn-price filled"><i class="ph ph-rocket-launch"></i> Start Pro Trial</button></div>
-        <div class="price-card reveal"><div class="price-plan">Enterprise</div><div class="price-amount" style="font-size:2rem">Custom</div><div class="price-period">volume pricing</div><ul class="price-feats"><li class="on"><i class="ph ph-check-circle"></i> Unlimited everything</li><li class="on"><i class="ph ph-check-circle"></i> Unlimited seats</li><li class="on"><i class="ph ph-check-circle"></i> Custom AI persona</li><li class="on"><i class="ph ph-check-circle"></i> SSO &amp; security</li><li class="on"><i class="ph ph-check-circle"></i> Dedicated manager</li></ul><button class="btn-price outline">Contact Sales <i class="ph ph-arrow-right"></i></button></div>
+        <div class="price-card reveal"><div class="price-plan">Starter</div><div class="price-amount"><sup>$</sup>0</div><div class="price-period">Forever free</div><ul class="price-feats"><li class="on"><i class="ph ph-check-circle"></i> 5,000 AI words / month</li><li class="on"><i class="ph ph-check-circle"></i> 10 task plans / month</li><li class="on"><i class="ph ph-check-circle"></i> 3 document summaries</li><li class="off"><i class="ph ph-minus-circle"></i> Team collaboration</li><li class="off"><i class="ph ph-minus-circle"></i> Priority support</li></ul><button class="btn-price outline" onclick="window.NexusToast && window.NexusToast.show('Redirecting to Starter Signup...', 'success')">Get Started Free</button></div>
+        <div class="price-card popular reveal"><span class="popular-label">Most Popular</span><div class="price-plan">Pro</div><div class="price-amount"><sup>$</sup>19</div><div class="price-period">per user / month</div><ul class="price-feats"><li class="on"><i class="ph ph-check-circle"></i> Unlimited AI writing</li><li class="on"><i class="ph ph-check-circle"></i> Unlimited task plans</li><li class="on"><i class="ph ph-check-circle"></i> Unlimited summaries</li><li class="on"><i class="ph ph-check-circle"></i> Team collaboration (5 seats)</li><li class="on"><i class="ph ph-check-circle"></i> Priority support</li></ul><button class="btn-price filled" onclick="window.NexusToast && window.NexusToast.show('Redirecting to Secure Checkout...', 'success')"><i class="ph ph-rocket-launch"></i> Start Pro Trial</button></div>
+        <div class="price-card reveal"><div class="price-plan">Enterprise</div><div class="price-amount" style="font-size:2rem">Custom</div><div class="price-period">volume pricing</div><ul class="price-feats"><li class="on"><i class="ph ph-check-circle"></i> Unlimited everything</li><li class="on"><i class="ph ph-check-circle"></i> Unlimited seats</li><li class="on"><i class="ph ph-check-circle"></i> Custom AI persona</li><li class="on"><i class="ph ph-check-circle"></i> SSO &amp; security</li><li class="on"><i class="ph ph-check-circle"></i> Dedicated manager</li></ul><button class="btn-price outline" onclick="window.NexusToast && window.NexusToast.show('Connecting you with Sales...', 'success')">Contact Sales <i class="ph ph-arrow-right"></i></button></div>
       </div>
       <div style="text-align:center;margin-top:32px"><a href="pricing.html" class="btn btn-ghost" style="display:inline-flex">View full pricing details <i class="ph ph-arrow-right"></i></a></div>
     </div>
@@ -563,7 +592,7 @@
         </h2>
         <p class="cta-desc">Join 50,000+ professionals already shipping faster, thinking clearer, and working smarter with Nexus AI.</p>
         <div class="cta-actions">
-          <button class="btn btn-primary btn-xl"><i class="ph ph-rocket-launch"></i> Start for Free — No Card Needed</button>
+          <button class="btn btn-primary btn-xl" onclick="window.NexusToast && window.NexusToast.show('Creating your free account...', 'success')"><i class="ph ph-rocket-launch"></i> Start for Free — No Card Needed</button>
           <a href="features.html" class="btn btn-outline btn-xl">Explore Features <i class="ph ph-arrow-right"></i></a>
         </div>
       </div>

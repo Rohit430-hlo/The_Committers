@@ -372,7 +372,19 @@ window.NexusToast = (function () {
     // Show the active one
     const activeToolbar = document.getElementById(`toolbar-${demoType.value}`);
     if (activeToolbar) activeToolbar.style.display = 'flex';
+
+    // Show/hide Tone selector (only for writer)
+    if (demoTone) {
+      if (demoType.value === 'writer') {
+        demoTone.style.display = 'block';
+      } else {
+        demoTone.style.display = 'none';
+      }
+    }
   });
+
+  // Init initial state on load
+  demoType.dispatchEvent(new Event('change'));
 
   // Writer Actions
   document.getElementById('btn-shorter')?.addEventListener('click', () => {
@@ -447,7 +459,8 @@ window.NexusToast = (function () {
     function move(x) {
       const rect = slider.getBoundingClientRect();
       const pct = Math.min(Math.max((x - rect.left) / rect.width, 0.05), 0.95);
-      after.style.clipPath = `inset(0 ${(1-pct)*100}% 0 0)`;
+      // after is visible on the right side of the handle
+      after.style.clipPath = `polygon(${pct * 100}% 0, 100% 0, 100% 100%, ${pct * 100}% 100%)`;
       handle.style.left = (pct * 100) + '%';
     }
     handle.addEventListener('mousedown', () => dragging = true);
@@ -456,6 +469,7 @@ window.NexusToast = (function () {
     window.addEventListener('touchend', () => dragging = false);
     window.addEventListener('mousemove', e => { if (dragging) move(e.clientX); });
     window.addEventListener('touchmove', e => { if (dragging) move(e.touches[0].clientX); }, { passive: true });
+    // Init state
     move(slider.getBoundingClientRect().left + slider.offsetWidth * 0.5);
   });
 })();
@@ -671,6 +685,31 @@ document.querySelectorAll('input, textarea').forEach(el => {
     sessionStorage.setItem('nexus-announce-closed', '1');
     setTimeout(() => banner.remove(), 400);
   });
+})();
+
+/* ══════════════════════════════════════════════════════════
+   21. AUTO-SELECT TOOL FROM URL PARAMS
+   ══════════════════════════════════════════════════════════ */
+(function handleUrlParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tool = urlParams.get('tool');
+  if (tool) {
+    const demoType = document.getElementById('demo-type');
+    if (demoType) {
+      demoType.value = tool;
+      demoType.dispatchEvent(new Event('change'));
+    }
+    if (window.location.hash === '#demo') {
+      setTimeout(() => {
+        const demoEl = document.getElementById('demo');
+        if (demoEl) {
+          const yOffset = -80; // account for navbar
+          const y = demoEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({top: y, behavior: 'smooth'});
+        }
+      }, 600);
+    }
+  }
 })();
 
 console.log('%c⚡ Nexus UI Features loaded', 'color:#ff6b9d;font-weight:bold');

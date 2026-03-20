@@ -492,29 +492,68 @@
 .ba-slider {
   position: relative; overflow: hidden; border-radius: 16px;
   cursor: ew-resize; border: 1px solid var(--border);
-  user-select: none; touch-action: none;
+  user-select: none; touch-action: none; background: var(--surface2); width: 100%;
 }
 .ba-before, .ba-after {
-  position: absolute; inset: 0; background-size: cover; background-position: center;
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
 }
-.ba-label {
+.ba-before {
+  z-index: 1;
+  background: var(--surface2);
+}
+.ba-after {
+  z-index: 2;
+  background: linear-gradient(135deg, rgba(8, 5, 20, 0.4), rgba(108,99,255,0.15));
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+}
+.ba-text-grid {
+  display: grid; grid-template-columns: 1fr 1fr; width: 100%; height: 100%;
+}
+.ba-col {
+  padding: 28px 40px; display: flex; flex-direction: column; justify-content: space-between;
+}
+.ba-col-title {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.ba-col-items { display: flex; flex-direction: column; gap: 12px; }
+.ba-item { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; }
+.ba-tag {
+  margin-top: auto; display: inline-flex; align-items: center; gap: 6px;
   background: rgba(5,5,10,0.8); border: 1px solid var(--border);
-  backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 8px;
-  font-size: 0.75rem; font-weight: 600;
-  display: inline-flex; align-items: center; gap: 6px; width: fit-content;
+  padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; width: fit-content;
 }
-.ba-before .ba-label { color: var(--muted); }
-.ba-after .ba-label { color: var(--accent2); }
+
+/* Color logic for BASE Layer (Before) */
+.ba-before .ba-col-left .ba-col-title, .ba-before .ba-col-left .ba-item { color: var(--muted); }
+.ba-before .ba-col-left i { color: var(--accent3); }
+.ba-before .ba-col-left .ba-tag { color: var(--muted); border-color: var(--border); }
+
+/* Dimmed After text in Base layer */
+.ba-before .ba-col-right { opacity: 0.15; }
+.ba-before .ba-col-right i { color: var(--text-secondary); }
+
+/* Color logic for TOP Layer (After) */
+.ba-after .ba-col-right .ba-col-title { color: var(--accent2); }
+.ba-after .ba-col-right .ba-item { color: #fff; }
+.ba-after .ba-col-right i { color: var(--accent5); }
+.ba-after .ba-col-right .ba-tag { color: var(--accent5); border-color: rgba(52,211,153,0.3); }
+
+/* Dimmed Before text in Top layer */
+.ba-after .ba-col-left { opacity: 0.15; }
+.ba-after .ba-col-left i { color: var(--text-secondary); }
+
 .ba-handle {
-  position: absolute; top: 0; bottom: 0; width: 3px;
+  position: absolute; top: 0; bottom: 0; width: 3px; left: 50%;
   background: #fff; transform: translateX(-50%); cursor: ew-resize;
-  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+  box-shadow: 0 0 20px rgba(255,255,255,0.3); z-index: 3;
 }
 .ba-handle-circle {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   width: 44px; height: 44px; background: #fff; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4); color: #333; font-size: 1rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4); color: #333; font-size: 1.1rem;
 }
 
 /* ── SCROLLBAR CUSTOM ─────────────────────────────────────── */
