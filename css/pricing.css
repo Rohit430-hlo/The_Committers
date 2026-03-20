@@ -149,9 +149,20 @@
   color: var(--text);
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
+  .pricing-full-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-card-full:last-child { grid-column: span 2; }
+}
+
+@media (max-width: 768px) {
   .pricing-full-grid { grid-template-columns: 1fr; }
+  .pricing-card-full:last-child { grid-column: span 1; }
   .pricing-card-full.popular { transform: none; }
   .pricing-card-full.popular:hover { transform: translateY(-5px); }
   .enterprise-banner { grid-template-columns: 1fr; gap: 32px; padding: 36px 28px; }
+}
+
+@media (max-width: 480px) {
+  .enterprise-banner { padding: 32px 20px; }
+  .enterprise-btns .btn { width: 100%; justify-content: center; }
 }
