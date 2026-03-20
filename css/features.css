@@ -194,3 +194,27 @@
 @media (max-width: 480px) {
   .integrations-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ── HERO STATS (Copied from index.css for features page) ─── */
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 72px;
+  animation: fadeDown 1s 0.45s ease both;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+  width: 100%;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.stat { text-align: center; }
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+}
+.stat-label { font-size: 0.85rem; color: var(--muted); letter-spacing: 0.04em; margin-top: 6px; text-transform: uppercase; font-weight: 500;}
