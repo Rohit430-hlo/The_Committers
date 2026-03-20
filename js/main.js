@@ -184,5 +184,104 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ── PREMIUM GSAP PAGE TRANSITIONS ────────────────────────── */
+  if (typeof gsap !== 'undefined') {
+    const overlay = document.createElement('div');
+    overlay.className = 'page-transition-overlay';
+    Object.assign(overlay.style, {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundColor: '#0a0a0a',
+      zIndex: 999999,
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    });
+    
+    // Animated glowing logo
+    overlay.innerHTML = `
+      <div style="animation: pulse 1.5s infinite alternate; filter: drop-shadow(0 0 16px rgba(108,99,255,0.4));">
+        <div class="nav-logo" style="cursor: default; font-size: 2.5rem;">
+          <div class="nav-logo-icon" style="width: 56px; height: 56px; font-size: 1.8rem; border-radius: 14px;">
+            <i class="ph ph-lightning-slash"></i>
+          </div>
+          Nexus<span style="color: var(--accent2)">AI</span>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // Reveal page on load (curtain slides up)
+    gsap.set(overlay, { yPercent: 0 });
+    gsap.to(overlay, { 
+      yPercent: -100, 
+      duration: 0.8, 
+      ease: "power4.inOut",
+      delay: 0.15
+    });
+
+    // Subtly animate main elements in
+    gsap.from(".hero, section, footer", {
+      y: 20,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.05,
+      ease: "power3.out",
+      delay: 0.3,
+      clearProps: "all"
+    });
+
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', e => {
+        const href = link.getAttribute('href');
+        const target = link.getAttribute('target');
+        
+        if (
+          href &&
+          !href.startsWith('#') &&
+          !href.startsWith('http') &&
+          !href.startsWith('mailto') &&
+          target !== '_blank'
+        ) {
+          if (href !== currentPath) {
+            e.preventDefault();
+            
+            // Curtain drops down
+            gsap.set(overlay, { yPercent: 100 });
+            gsap.to(overlay, {
+              yPercent: 0,
+              duration: 0.7,
+              ease: "power4.inOut",
+              onComplete: () => {
+                window.location.href = href;
+              }
+            });
+            
+            // Push current page elements slightly down and fade
+            gsap.to(".hero, section, footer", {
+              y: 40,
+              opacity: 0,
+              duration: 0.6,
+              ease: "power3.in"
+            });
+          } else {
+            e.preventDefault(); // Don't reload exact same page
+          }
+        }
+      });
+    });
+
+    window.addEventListener('pageshow', e => {
+      if (e.persisted) {
+        gsap.to(overlay, { scaleY: 0, duration: 0.4, ease: "power2.out" });
+        gsap.set(".hero, section, footer", { clearProps: "all" });
+      }
+    });
+  }
+
   console.log('%c⚡ Nexus AI loaded', 'color:#6c63ff;font-weight:bold;font-size:14px');
 });
