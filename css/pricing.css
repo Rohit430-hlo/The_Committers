@@ -89,7 +89,7 @@
   transform: scale(1.03) translateY(-5px);
 }
 
-/* ── FAQ ACCORDION ──────────────────────────────────────────── */
+
 .faq-list {
   margin-top: 48px;
   display: flex;
@@ -151,6 +151,7 @@
   font-weight: 300;
 }
 
+
 .enterprise-banner {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -204,6 +205,7 @@
   gap: 10px;
   flex-shrink: 0;
 }
+
 
 .trust-logos {
   display: flex;

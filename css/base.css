@@ -186,7 +186,7 @@ body::before {
   border-color: rgba(0, 229, 255, 0.8);
 }
 
-/* ── TYPOGRAPHY ─────────────────────────────────────────────── */
+
 .display {
   font-family: var(--font-display);
   font-weight: 800;
@@ -231,7 +231,7 @@ body::before {
   max-width: 520px;
 }
 
-/* ── BUTTONS ────────────────────────────────────────────────── */
+/* ── BUTTONS ── */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -285,7 +285,7 @@ body::before {
   background: rgba(255, 255, 255, 0.04);
 }
 
-/* ── CARDS ──────────────────────────────────────────────────── */
+/* ── CARDS ── */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -298,7 +298,6 @@ body::before {
   transform: translateY(-4px);
 }
 
-/* ── BADGES / CHIPS ─────────────────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -340,7 +339,7 @@ body::before {
   color: var(--accent5);
 }
 
-/* ── ICON WRAPPERS ──────────────────────────────────────────── */
+
 .icon-box {
   width: 52px;
   height: 52px;
@@ -576,7 +575,7 @@ body::before {
   animation: float2 5.5s 1s ease-in-out infinite;
 }
 
-/* ── PULSE DOT ──────────────────────────────────────────────── */
+
 .pulse-dot {
   width: 7px;
   height: 7px;
@@ -592,7 +591,7 @@ body::before {
   background: var(--accent2);
 }
 
-/* ── PROGRESS BARS ──────────────────────────────────────────── */
+
 .progress-track {
   height: 5px;
   background: rgba(255, 255, 255, 0.07);
@@ -612,7 +611,7 @@ body::before {
   animation: scaleIn 0.5s ease both;
 }
 
-/* ── DIVIDER ────────────────────────────────────────────────── */
+
 .divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--border), transparent);
@@ -760,7 +759,7 @@ body::before {
   color: var(--accent);
 }
 
-/* ── SCROLL REVEAL ──────────────────────────────────────────── */
+/* ── SCROLL REVEAL ── */
 .reveal {
   opacity: 0;
   transform: translateY(28px);

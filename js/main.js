@@ -1,11 +1,8 @@
-/* ============================================================
-   MAIN.JS — Shared utilities across all pages
-   Cursor, Navbar, Scroll Reveal, Stat Counter
-   ============================================================ */
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── CUSTOM CURSOR ──────────────────────────────────────── */
+
   const cursorDot  = document.querySelector('.cursor-dot');
   const cursorRing = document.querySelector('.cursor-ring');
 
@@ -27,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       requestAnimationFrame(animRing);
     })();
 
-    // Hover state
+ 
     const hoverTargets = document.querySelectorAll(
       'a, button, .tool-tab, .feat-card, .pillar-card, .testi-card, ' +
       '.price-card, .pricing-card-full, .faq-question, .suggest-chip, ' +
@@ -39,25 +36,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── NAVBAR ─────────────────────────────────────────────── */
+
   const navbar    = document.querySelector('.navbar');
   const hamburger = document.querySelector('.nav-hamburger');
   const mobileNav = document.querySelector('.nav-mobile');
 
-  // Scroll shadow
+
   if (navbar) {
     window.addEventListener('scroll', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 20);
     });
   }
 
-  // Mobile menu toggle
   if (hamburger && mobileNav) {
     hamburger.addEventListener('click', () => {
       const isOpen = hamburger.classList.toggle('open');
       mobileNav.classList.toggle('open', isOpen);
     });
-    // Close on link click
     mobileNav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         hamburger.classList.remove('open');
@@ -66,21 +61,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Active link highlight
+
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a, .nav-mobile a').forEach(link => {
     const href = link.getAttribute('href');
     if (href && href === currentPath) link.classList.add('active');
   });
 
-  /* ── SCROLL REVEAL ───────────────────────────────────────── */
+
   const revealEls = document.querySelectorAll('.reveal');
 
   if (revealEls.length) {
     const revealObs = new IntersectionObserver(entries => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-          // Stagger siblings
+
           const siblings = [...entry.target.parentElement.querySelectorAll('.reveal')];
           const idx = siblings.indexOf(entry.target);
           entry.target.style.transitionDelay = (idx * 0.09) + 's';
@@ -93,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => revealObs.observe(el));
   }
 
-  /* ── STAT COUNTER ────────────────────────────────────────── */
+
   function animateCount(el, target, suffix, decimals = 0) {
     let start = 0;
     const duration = 1600;
@@ -102,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function update(now) {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Ease out quart
+
       const ease = 1 - Math.pow(1 - progress, 4);
       const value = start + (target - start) * ease;
       el.textContent = value.toFixed(decimals) + suffix;
@@ -121,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
           if      (raw.includes('K+'))  animateCount(n, 50,  'K+', 0);
           else if (raw.includes('M'))   animateCount(n, 3.2, 'M',  1);
           else if (raw.includes('x'))   animateCount(n, 10,  'x',  0);
-          // Stars keep as-is
         });
         statObs.unobserve(statsSection);
       }
@@ -129,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
     statObs.observe(statsSection);
   }
 
-  /* ── SMOOTH ANCHOR SCROLL ────────────────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
@@ -140,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── HERO TOOL TABS (index page only) ───────────────────── */
+
   const toolTabs = document.querySelectorAll('.tool-tab');
   if (toolTabs.length) {
     toolTabs.forEach((tab, i) => {
@@ -154,19 +147,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── FAQ ACCORDION (pricing page only) ──────────────────── */
+
   document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
       const isOpen = item.classList.contains('open');
-      // Close all
+
       document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      // Toggle clicked
+
       if (!isOpen) item.classList.add('open');
     });
   });
 
-  /* ── BILLING TOGGLE (pricing page only) ─────────────────── */
+
   const billingSwitch = document.getElementById('billingToggle');
   if (billingSwitch) {
     billingSwitch.addEventListener('click', () => {
