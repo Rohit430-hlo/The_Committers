@@ -401,7 +401,7 @@
       <div style="margin-bottom:48px">
         <div class="section-label"><i class="ph ph-play-circle"></i> Live Demo</div>
         <h2 class="section-title reveal">Experience it<br><span class="gradient-text">in real-time</span></h2>
-        <p class="section-sub reveal">Select a tool, enter your prompt, and let Nexus AI (via Groq) generate the results live.</p>
+        <p class="section-sub reveal">Select a tool, adjust your brand voice, enter your prompt, and let Nexus AI (via Groq) generate and iterate live.</p>
       </div>
       <div class="demo-section reveal">
         <div class="demo-top" style="flex-direction:column; align-items:flex-start;">
@@ -411,12 +411,18 @@
           </div>
           
           <div style="width:100%; display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap;">
-            <select class="demo-select" id="demo-type" style="flex:1; min-width:200px;">
+            <select class="demo-select" id="demo-type" style="flex:1; min-width:180px;">
               <option value="writer">AI Writing Engine</option>
               <option value="planner">Task Planning Engine</option>
               <option value="summarizer">Smart Summarizer</option>
             </select>
-            <div style="position: relative; flex:1; min-width:200px;">
+            <select class="demo-select" id="demo-tone" style="flex:1; min-width:140px;">
+              <option value="professional">Tone: Professional</option>
+              <option value="casual">Tone: Casual/Friendly</option>
+              <option value="urgent">Tone: Urgent</option>
+              <option value="humorous">Tone: Humorous</option>
+            </select>
+            <div style="position: relative; flex:1.5; min-width:200px;">
               <i class="ph ph-key" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted)"></i>
               <input type="password" id="demo-api-key" placeholder="Groq API Key (Saved Locally)" style="width:100%; padding:9px 12px 9px 36px; border-radius:8px; background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:0.83rem; outline:none; box-sizing:border-box;">
             </div>
@@ -435,6 +441,36 @@
         </div>
         <div class="demo-output-wrap">
           <div id="demo-output" class="custom-scroll"></div>
+          
+          <div id="demo-toolbar" style="display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; opacity:0; pointer-events:none; transition:opacity 0.3s ease;">
+             
+             <!-- Writer Buttons -->
+             <div id="toolbar-writer" style="display:flex; gap:8px; flex-wrap:wrap;">
+               <button class="btn-micro" id="btn-shorter"><i class="ph ph-arrows-in-simple"></i> Make Shorter</button>
+               <button class="btn-micro" id="btn-expand"><i class="ph ph-arrows-out-simple"></i> Expand</button>
+               <button class="btn-micro" id="btn-seo"><i class="ph ph-magnifying-glass-plus"></i> Optimize SEO</button>
+               <button class="btn-micro" id="btn-quality"><i class="ph ph-check-square-offset"></i> Quality Check</button>
+             </div>
+
+             <!-- Planner Buttons -->
+             <div id="toolbar-planner" style="display:none; gap:8px; flex-wrap:wrap;">
+               <button class="btn-micro" id="btn-dependencies"><i class="ph ph-git-branch"></i> Map Dependencies</button>
+               <button class="btn-micro" id="btn-kanban"><i class="ph ph-kanban"></i> View as Kanban</button>
+               <button class="btn-micro" id="btn-sync-jira"><i class="ph ph-jira-logo"></i> Sync to Jira (Demo)</button>
+             </div>
+
+             <!-- Summarizer Buttons -->
+             <div id="toolbar-summarizer" style="display:none; gap:8px; flex-wrap:wrap;">
+               <button class="btn-micro" id="btn-action-items"><i class="ph ph-list-checks"></i> Extract Action Items</button>
+               <button class="btn-micro" id="btn-sentiment"><i class="ph ph-smiley"></i> Analyze Sentiment</button>
+               <button class="btn-micro" id="btn-upload"><i class="ph ph-upload-simple"></i> Upload PDF (Demo)</button>
+             </div>
+
+             <!-- Global Buttons -->
+             <div style="width:1px; height:24px; background:var(--border); margin:0 4px;"></div>
+             <button class="btn-micro" id="btn-export"><i class="ph ph-download-simple"></i> Export</button>
+
+          </div>
         </div>
       </div>
     </div>

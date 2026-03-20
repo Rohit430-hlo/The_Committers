@@ -209,8 +209,10 @@ window.NexusToast = (function () {
   const demoWpm = document.getElementById('demo-wpm');
   const demoWords = document.getElementById('demo-words');
   const demoType = document.getElementById('demo-type');
+  const demoTone = document.getElementById('demo-tone');
   const demoPrompt = document.getElementById('demo-prompt');
   const demoApiKey = document.getElementById('demo-api-key');
+  const demoToolbar = document.getElementById('demo-toolbar');
   
   if (!demoArea || !demoBtn || !demoPrompt || !demoApiKey) return;
   
@@ -222,12 +224,12 @@ window.NexusToast = (function () {
   let abortController = null;
 
   const SYSTEM_PROMPTS = {
-    writer: "You are an expert AI Writing Engine. Write high-quality, engaging content based on the user's prompt. Do not include introductory text like 'Here is the content', just output the final content directly. Format your output using markdown.",
-    planner: "You are an expert Task Planning Engine. Break down the user's project into actionable steps, include estimated timelines (in days/hours) and priority levels (High/Medium/Low). Use clean markdown formatting with lists and bold text.",
+    writer: "You are an expert AI Writing Engine. Write high-quality, engaging content based on the user's prompt. Do not include introductory text like 'Here is the content', just output the final content directly. Format your output using clean markdown.",
+    planner: "You are an expert Task Planning Engine. Break down the user's project into actionable steps, include timelines and priority levels. Use clean markdown formatting with lists.",
     summarizer: "You are a Smart Summarizer. Extract the key insights, action items, and main points from the provided text into a concise, structured markdown summary."
   };
 
-  demoBtn.addEventListener('click', async () => {
+  async function runGroqGeneration(targetPrompt, systemRoleOverride = null) {
     if (streaming) {
       if (abortController) abortController.abort();
       resetBtn();
@@ -235,29 +237,34 @@ window.NexusToast = (function () {
     }
 
     const apiKey = demoApiKey.value.trim();
-    const promptText = demoPrompt.value.trim();
-    
     if (!apiKey) {
       if (typeof window.NexusToast !== 'undefined') window.NexusToast.show('Please enter a Groq API Key.', 'warning');
       demoApiKey.focus();
-      return;
-    }
-    if (!promptText) {
-      if (typeof window.NexusToast !== 'undefined') window.NexusToast.show('Please enter a prompt.', 'warning');
-      demoPrompt.focus();
       return;
     }
 
     // Save key
     localStorage.setItem('nexus_groq_api_key', apiKey);
 
+    // Hide toolbar during generation
+    if (demoToolbar) {
+      demoToolbar.style.opacity = '0';
+      demoToolbar.style.pointerEvents = 'none';
+    }
+
     demoArea.textContent = '';
-    demoBtn.innerHTML = '<i class="ph ph-spinner" style="animation:spin 1s linear infinite"></i> Starting...';
+    demoBtn.innerHTML = '<i class="ph ph-spinner" style="animation:spin 1s linear infinite"></i> Processing...';
     streaming = true;
     abortController = new AbortController();
 
     let tokenCount = 0;
     const startTime = Date.now();
+    
+    // Determine tone and system prompt
+    let baseSystemPrompt = systemRoleOverride || SYSTEM_PROMPTS[demoType.value] || SYSTEM_PROMPTS.writer;
+    if (demoTone && demoTone.value && !systemRoleOverride) {
+      baseSystemPrompt += ` Adopt a ${demoTone.value} tone and brand voice.`;
+    }
 
     try {
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -269,8 +276,8 @@ window.NexusToast = (function () {
         body: JSON.stringify({
           model: 'llama-3.3-70b-versatile',
           messages: [
-            { role: 'system', content: SYSTEM_PROMPTS[demoType.value] || SYSTEM_PROMPTS.writer },
-            { role: 'user', content: promptText }
+            { role: 'system', content: baseSystemPrompt },
+            { role: 'user', content: targetPrompt }
           ],
           temperature: 0.7,
           stream: true
@@ -320,6 +327,12 @@ window.NexusToast = (function () {
       
       if (typeof window.NexusToast !== 'undefined') window.NexusToast.show('Generation complete!', 'success');
       
+      // Show Toolbar for rewrite actions after successful generation
+      if (demoToolbar && demoArea.textContent.trim().length > 0) {
+        demoToolbar.style.opacity = '1';
+        demoToolbar.style.pointerEvents = 'auto';
+      }
+      
     } catch (error) {
       if (error.name !== 'AbortError') {
         demoArea.textContent = `Error: ${error.message}`;
@@ -330,12 +343,95 @@ window.NexusToast = (function () {
     } finally {
       resetBtn();
     }
-  });
+  }
 
   function resetBtn() {
     streaming = false;
     demoBtn.innerHTML = '<i class="ph ph-sparkle"></i> Generate';
   }
+
+  // Event Listeners
+  demoBtn.addEventListener('click', () => {
+    const promptText = demoPrompt.value.trim();
+    if (!promptText && !streaming) {
+      if (typeof window.NexusToast !== 'undefined') window.NexusToast.show('Please enter a prompt.', 'warning');
+      demoPrompt.focus();
+      return;
+    }
+    runGroqGeneration(promptText);
+  });
+
+  demoType.addEventListener('change', () => {
+    // Hide all specific toolbars initially
+    const toolbars = ['toolbar-writer', 'toolbar-planner', 'toolbar-summarizer'];
+    toolbars.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    
+    // Show the active one
+    const activeToolbar = document.getElementById(`toolbar-${demoType.value}`);
+    if (activeToolbar) activeToolbar.style.display = 'flex';
+  });
+
+  // Writer Actions
+  document.getElementById('btn-shorter')?.addEventListener('click', () => {
+    runGroqGeneration(`Rewrite the following text to be much shorter, punchier, and more concise:\n\n${demoArea.textContent}`);
+  });
+  document.getElementById('btn-expand')?.addEventListener('click', () => {
+    runGroqGeneration(`Expand on the following text by adding more detail, examples, and depth. Make it comprehensive:\n\n${demoArea.textContent}`);
+  });
+  document.getElementById('btn-seo')?.addEventListener('click', () => {
+    runGroqGeneration(`Rewrite the following text to be highly optimized for SEO. Add relevant keywords naturally, use a compelling meta-description style intro, and ensure readability with headings:\n\n${demoArea.textContent}`, "You are an expert SEO Content Strategist.");
+  });
+  document.getElementById('btn-quality')?.addEventListener('click', () => {
+    runGroqGeneration(`Act as an expert copywriter and editor. Review the following text and provide a Quality Check report. Give it a Readability Score (out of 100), an SEO Score (out of 100), and 3 bullet points on how to improve it. Output ONLY the review scorecard:\n\n${demoArea.textContent}`, "You are a Content Quality Assurance AI.");
+  });
+
+  // Planner Actions
+  document.getElementById('btn-dependencies')?.addEventListener('click', () => {
+    runGroqGeneration(`Analyze the following project plan and map out all task dependencies. Identify blockers, critical paths, and prerequisites. Output a clear Dependency Map:\n\n${demoArea.textContent}`, "You are an expert Project Manager.");
+  });
+  document.getElementById('btn-kanban')?.addEventListener('click', () => {
+    runGroqGeneration(`Convert the following project plan into a visual Markdown Kanban Board (Sprint Board format). Use columns for To Do, In Progress, and Done. Assign realistic priority labels and estimated times to each item:\n\n${demoArea.textContent}`, "You are an Agile Scrum Master.");
+  });
+  document.getElementById('btn-sync-jira')?.addEventListener('click', () => {
+    if (typeof window.NexusToast !== 'undefined') {
+      window.NexusToast.show('Successfully synced 12 tasks to Jira!', 'success');
+      demoBtn.innerHTML = '<i class="ph ph-check-circle"></i> Synced to Jira';
+      setTimeout(resetBtn, 3000);
+    }
+  });
+
+  // Summarizer Actions
+  document.getElementById('btn-action-items')?.addEventListener('click', () => {
+    runGroqGeneration(`Extract all actionable steps, to-dos, and commitments from the following text. Output a clean checklist of Action Items:\n\n${demoArea.textContent}`, "You are a sharp Executive Assistant.");
+  });
+  document.getElementById('btn-sentiment')?.addEventListener('click', () => {
+    runGroqGeneration(`Analyze the sentiment, tone, and underlying mood of the following text. Give a clear Sentiment Score (e.g., highly positive, neutral, negative) and explain why in 2 concise bullet points:\n\n${demoArea.textContent}`, "You are a linguistic sentiment analyzer.");
+  });
+  document.getElementById('btn-upload')?.addEventListener('click', () => {
+    if (typeof window.NexusToast !== 'undefined') {
+      window.NexusToast.show('Simulated PDF upload complete. Text extracted!', 'success');
+      demoPrompt.value = "Imagine a 10-page final report discussing Q3 financials, a massive 15% increase in marketing spend over budget, and the delay of entirely new product launches slated for November. Team morale seems cautious but stable.";
+      demoPrompt.focus();
+    }
+  });
+
+  // Global Actions
+  document.getElementById('btn-export')?.addEventListener('click', () => {
+    if (!demoArea.textContent.trim()) return;
+    const blob = new Blob([demoArea.textContent], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Nexus-AI-${demoType.value}-export.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    if (typeof window.NexusToast !== 'undefined') window.NexusToast.show('Export downloaded!', 'success');
+  });
+
 })();
 
 /* ══════════════════════════════════════════════════════════
