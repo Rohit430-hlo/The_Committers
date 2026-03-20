@@ -1,41 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nexus AI — AI Productivity Assistant</title>
   <meta name="description" content="AI writing, intelligent task planning, and smart summarization in one workspace." />
+  <meta name="theme-color" content="#05050a" />
+  <meta property="og:title" content="Nexus AI — Work Smarter. Think Faster." />
+  <meta property="og:description" content="AI writing, task planning, and smart summarization for high-performance teams." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 
   <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/nav.css" />
   <link rel="stylesheet" href="css/index.css" />
   <link rel="stylesheet" href="css/chatbot.css" />
+  <link rel="stylesheet" href="css/advanced.css" />
 </head>
 
 <body>
 
+  <!-- PAGE LOADER -->
+  <div id="page-loader">
+    <div class="loader-logo">
+      <div class="loader-logo-icon"><i class="ph ph-lightning-slash"></i></div>
+      NexusAI
+    </div>
+    <div class="loader-track"><div class="loader-bar"></div></div>
+    <div class="loader-pct">0%</div>
+  </div>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div id="announcement-bar">
+    <i class="ph ph-sparkle" style="color:var(--accent2)"></i>
+    <span><strong>New:</strong> Llama 3.3 model integration is live — <a href="features.html">see what's new</a></span>
+    <button id="announce-close"><i class="ph ph-x"></i></button>
+  </div>
+
+  <!-- BACKGROUNDS -->
+  <canvas id="particle-canvas"></canvas>
   <div class="grid-bg"></div>
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
 
-  <div class="cursor">
-    <div class="cursor-dot"></div>
-    <div class="cursor-ring"></div>
+  <!-- CURSOR -->
+  <div class="cursor"><div class="cursor-dot"></div><div class="cursor-ring"></div></div>
+
+  <!-- READING PROGRESS RING -->
+  <div id="reading-ring">
+    <svg width="44" height="44" viewBox="0 0 44 44">
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#6c63ff"/>
+          <stop offset="100%" stop-color="#00e5ff"/>
+        </linearGradient>
+      </defs>
+      <circle class="ring-bg" cx="22" cy="22" r="18"/>
+      <circle class="ring-fill" cx="22" cy="22" r="18"/>
+    </svg>
+    <div class="ring-center">%</div>
   </div>
 
+  <!-- BACK TO TOP -->
+  <button id="back-to-top" data-tooltip="Back to top"><i class="ph ph-arrow-up"></i></button>
+
+  <!-- NAVBAR -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="nav-logo-icon">
-        <i class="ph ph-lightning-slash"></i>
-      </div>
+      <div class="nav-logo-icon"><i class="ph ph-lightning-slash"></i></div>
       Nexus<span>AI</span>
     </a>
 
@@ -44,42 +88,82 @@
       <li><a href="features.html">Features</a></li>
       <li><a href="pricing.html">Pricing</a></li>
       <li><a href="#testi">Reviews</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#demo">Live Demo</a></li>
     </ul>
 
-    <div class="nav-cta">
-      <button class="btn btn-ghost hide-mobile">Sign In</button>
-      <button class="btn btn-primary">
-        Get Started Free
-        <i class="ph ph-arrow-right"></i>
+    <div class="nav-cta" style="display:flex;align-items:center;gap:10px">
+      <button id="cmd-trigger" class="hide-mobile" data-tooltip="Command palette (Cmd+K)">
+        <i class="ph ph-magnifying-glass"></i><span>Search…</span>
+        <div class="cmd-trigger-keys"><kbd>⌘</kbd><kbd>K</kbd></div>
       </button>
+      <button id="theme-toggle" data-tooltip="Toggle theme (T)"><i class="ph ph-sun"></i></button>
+      <button class="btn btn-ghost hide-mobile">Sign In</button>
+      <button class="btn btn-primary">Get Started Free <i class="ph ph-arrow-right"></i></button>
     </div>
 
-    <button class="nav-hamburger" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="nav-hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </nav>
 
-  <!-- Mobile nav drawer -->
   <div class="nav-mobile">
     <a href="index.html">Home</a>
     <a href="features.html">Features</a>
     <a href="pricing.html">Pricing</a>
-    <a href="#testi">Reviews</a>
+    <a href="#demo">Live Demo</a>
     <button class="btn btn-primary">Get Started Free <i class="ph ph-arrow-right"></i></button>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════
-     HERO
-══════════════════════════════════════════════════════ -->
-  <section class="hero">
-    <a href="#" class="hero-eyebrow">
-      Saying Goodbye: The End of Specify
-      <i class="ph-fill ph-arrow-circle-right"></i>
-    </a>
+  <!-- COMMAND PALETTE -->
+  <div id="cmd-palette">
+    <div class="cmd-overlay"></div>
+    <div class="cmd-box">
+      <div class="cmd-search">
+        <i class="ph ph-magnifying-glass"></i>
+        <input class="cmd-input" type="text" placeholder="Search pages, actions, settings…" autocomplete="off"/>
+        <span class="cmd-shortcut-hint">ESC to close</span>
+      </div>
+      <div class="cmd-results"></div>
+      <div class="cmd-footer">
+        <span><span class="cmd-key">↑↓</span> Navigate</span>
+        <span><span class="cmd-key">↵</span> Select</span>
+        <span><span class="cmd-key">ESC</span> Close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHORTCUTS MODAL -->
+  <div id="shortcuts-modal">
+    <div class="shortcuts-box">
+      <div class="shortcuts-title"><i class="ph ph-keyboard"></i> Keyboard Shortcuts</div>
+      <div class="shortcut-row"><span>Open Command Palette</span><div class="shortcut-keys"><kbd>⌘</kbd><kbd>K</kbd></div></div>
+      <div class="shortcut-row"><span>Toggle Dark/Light Mode</span><div class="shortcut-keys"><kbd>T</kbd></div></div>
+      <div class="shortcut-row"><span>Open AI Chat</span><div class="shortcut-keys"><kbd>C</kbd></div></div>
+      <div class="shortcut-row"><span>Show Shortcuts</span><div class="shortcut-keys"><kbd>?</kbd></div></div>
+      <div class="shortcut-row"><span>Close Modal</span><div class="shortcut-keys"><kbd>ESC</kbd></div></div>
+      <div style="margin-top:18px;text-align:center;font-size:0.73rem;color:var(--muted)">Press <kbd style="background:var(--surface2);border:1px solid var(--border);padding:1px 5px;border-radius:4px">ESC</kbd> to close</div>
+    </div>
+  </div>
+
+  <!-- VIDEO MODAL -->
+  <div id="video-modal">
+    <div id="video-overlay"></div>
+    <div class="video-box">
+      <button class="video-close-btn" data-close-modal><i class="ph ph-x"></i></button>
+      <div class="video-placeholder">
+        <div class="video-play-icon"><i class="ph ph-play"></i></div>
+        <p>Product demo video — coming soon</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ HERO ════════════════════════════════════════════════ -->
+  <section class="hero" id="home">
+    <div class="hero-eyebrow">
+      <span class="pulse-dot cyan"></span>
+      Now in Public Beta &mdash; Join 50,000+ users
+    </div>
 
     <h1 class="display">
-      Work Smarter.<br>
+      <span id="typewriter-text">Work Smarter.</span><br>
       <span class="gradient-text">Think Faster.</span>
     </h1>
 
@@ -88,38 +172,53 @@
       all in one workspace designed for the way you actually think.
     </p>
 
+    <!-- Social proof -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap;justify-content:center">
+      <div class="avatar-stack">
+        <div class="avatar-stack-item">P</div>
+        <div class="avatar-stack-item" style="background:linear-gradient(135deg,#00e5ff,#0891b2)">M</div>
+        <div class="avatar-stack-item" style="background:linear-gradient(135deg,#ff6b9d,#ec4899)">A</div>
+        <div class="avatar-stack-item" style="background:linear-gradient(135deg,#34d399,#059669)">R</div>
+        <div class="avatar-stack-item avatar-stack-count">+49K</div>
+      </div>
+      <div style="font-size:0.82rem;color:var(--muted)">
+        <span style="color:var(--accent4)">★★★★★</span> &nbsp;Trusted by 50,000+ professionals
+      </div>
+    </div>
+
     <div class="hero-actions">
       <button class="btn btn-primary btn-xl">
-        <i class="ph ph-rocket-launch"></i>
-        Start for Free
+        <i class="ph ph-rocket-launch"></i> Start for Free
       </button>
-      <button class="btn btn-outline btn-xl">
-        <i class="ph ph-play-circle"></i>
-        Watch Demo
+      <button class="btn btn-outline btn-xl" data-open-modal="video">
+        <i class="ph ph-play-circle"></i> Watch Demo
       </button>
+    </div>
+
+    <div class="trust-row" style="justify-content:center;margin-top:20px">
+      <div class="trust-badge"><i class="ph ph-lock-simple"></i> SOC 2</div>
+      <div class="trust-badge"><i class="ph ph-shield-check"></i> GDPR</div>
+      <div class="trust-badge"><i class="ph ph-credit-card"></i> No Card</div>
+      <div class="trust-badge"><i class="ph ph-arrows-clockwise"></i> Cancel Anytime</div>
     </div>
 
     <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">50K+</div>
-        <div class="stat-label">Active Users</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">3.2M</div>
-        <div class="stat-label">Tasks Completed</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">4.9★</div>
-        <div class="stat-label">User Rating</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">10x</div>
-        <div class="stat-label">Faster Workflow</div>
-      </div>
+      <div class="stat"><div class="stat-num">50K+</div><div class="stat-label">Active Users</div></div>
+      <div class="stat"><div class="stat-num">3.2M</div><div class="stat-label">Tasks Completed</div></div>
+      <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">User Rating</div></div>
+      <div class="stat"><div class="stat-num">10x</div><div class="stat-label">Faster Workflow</div></div>
     </div>
 
     <!-- App Mockup -->
-    <div class="hero-visual">
+    <div class="hero-visual" style="position:relative">
+      <div class="floating-badge fb-1">
+        <div class="floating-badge-icon icon-box green"><i class="ph ph-check-circle"></i></div>
+        <div><div class="floating-badge-value">+47% faster</div><div class="floating-badge-label">Content production</div></div>
+      </div>
+      <div class="floating-badge fb-2">
+        <div class="floating-badge-icon icon-box purple"><i class="ph ph-lightning"></i></div>
+        <div><div class="floating-badge-value">12 sec</div><div class="floating-badge-label">Avg. summary time</div></div>
+      </div>
       <div class="mockup-shell floating">
         <div class="mockup-topbar">
           <div class="window-dot wd-red"></div>
@@ -132,21 +231,11 @@
         </div>
         <div class="mockup-body">
           <div class="mock-sidebar">
-            <div class="mock-nav-item active">
-              <i class="ph ph-pencil-simple-line"></i> AI Writing
-            </div>
-            <div class="mock-nav-item">
-              <i class="ph ph-check-square"></i> Task Planner
-            </div>
-            <div class="mock-nav-item">
-              <i class="ph ph-lightning"></i> Summarizer
-            </div>
-            <div class="mock-nav-item">
-              <i class="ph ph-folder"></i> Documents
-            </div>
-            <div class="mock-nav-item">
-              <i class="ph ph-gear"></i> Settings
-            </div>
+            <div class="mock-nav-item active"><i class="ph ph-pencil-simple-line"></i> AI Writing</div>
+            <div class="mock-nav-item"><i class="ph ph-check-square"></i> Task Planner</div>
+            <div class="mock-nav-item"><i class="ph ph-lightning"></i> Summarizer</div>
+            <div class="mock-nav-item"><i class="ph ph-folder"></i> Documents</div>
+            <div class="mock-nav-item"><i class="ph ph-gear"></i> Settings</div>
           </div>
           <div class="mock-main">
             <div class="mock-top">
@@ -154,54 +243,26 @@
                 <div class="mock-title">AI Writing Studio</div>
                 <div class="mock-sub">Start with a prompt, finish with perfection</div>
                 <div class="mock-chips">
-                  <span class="badge badge-purple">
-                    <i class="ph ph-newspaper"></i> Blog Post
-                  </span>
-                  <span class="badge badge-cyan">
-                    <i class="ph ph-envelope"></i> Email
-                  </span>
-                  <span class="badge badge-pink">
-                    <i class="ph ph-lightbulb"></i> Ideas
-                  </span>
+                  <span class="badge badge-purple"><i class="ph ph-newspaper"></i> Blog Post</span>
+                  <span class="badge badge-cyan"><i class="ph ph-envelope"></i> Email</span>
+                  <span class="badge badge-pink"><i class="ph ph-lightbulb"></i> Ideas</span>
                 </div>
               </div>
-              <div class="ai-status">
-                <span class="pulse-dot cyan"></span>
-                AI Active
-              </div>
+              <div class="ai-status"><span class="pulse-dot cyan"></span> AI Active</div>
             </div>
-
             <div class="mock-card">
               <div class="mock-card-label">
                 <i class="ph ph-sparkle" style="color:var(--accent2)"></i>
                 Generating content<span class="write-cursor"></span>
               </div>
-              <div class="write-anim">
-                <div class="write-bar"></div>
-                <div class="write-bar"></div>
-                <div class="write-bar"></div>
-              </div>
+              <div class="write-anim"><div class="write-bar"></div><div class="write-bar"></div><div class="write-bar"></div></div>
             </div>
-
             <div class="mock-card">
-              <div class="mock-card-label">
-                <i class="ph ph-chart-line" style="color:var(--accent)"></i>
-                Today's Progress
-              </div>
-              <div
-                style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-bottom:6px">
-                <span>Words Written</span><span>2,400 / 3,000</span>
-              </div>
-              <div class="progress-track" style="margin-bottom:12px">
-                <div class="progress-fill" style="width:80%"></div>
-              </div>
-              <div
-                style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-bottom:6px">
-                <span>Tasks Done</span><span>7 / 10</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" style="width:70%;background:linear-gradient(90deg,#00e5ff,#8b5cf6)"></div>
-              </div>
+              <div class="mock-card-label"><i class="ph ph-chart-line" style="color:var(--accent)"></i> Today's Progress</div>
+              <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-bottom:6px"><span>Words Written</span><span>2,400 / 3,000</span></div>
+              <div class="progress-track" style="margin-bottom:12px"><div class="progress-fill" style="width:80%"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-bottom:6px"><span>Tasks Done</span><span>7 / 10</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:70%;background:linear-gradient(90deg,#00e5ff,#8b5cf6)"></div></div>
             </div>
           </div>
         </div>
@@ -209,366 +270,248 @@
     </div>
   </section>
 
-  <div class="divider"></div>
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-inner">
+      <div class="marquee-track">
+        <div class="marquee-item"><i class="ph ph-pencil-simple-line"></i> AI Writing</div>
+        <div class="marquee-item"><i class="ph ph-check-square"></i> Task Planning</div>
+        <div class="marquee-item"><i class="ph ph-lightning"></i> Smart Summaries</div>
+        <div class="marquee-item"><i class="ph ph-brain"></i> Memory Engine</div>
+        <div class="marquee-item"><i class="ph ph-link"></i> 50+ Integrations</div>
+        <div class="marquee-item"><i class="ph ph-users-three"></i> Team Collaboration</div>
+        <div class="marquee-item"><i class="ph ph-chart-line"></i> Analytics</div>
+        <div class="marquee-item"><i class="ph ph-shield-check"></i> SOC 2 Secure</div>
+        <div class="marquee-item"><i class="ph ph-translate"></i> 25 Languages</div>
+        <div class="marquee-item"><i class="ph ph-code"></i> API Access</div>
+      </div>
+    </div>
+  </div>
 
-  <!-- ══════════════════════════════════════════════════════
-     FEATURES
-══════════════════════════════════════════════════════ -->
+  <!-- ══ FEATURES ════════════════════════════════════════════ -->
   <section class="section" id="features">
     <div class="container">
       <div style="margin-bottom:56px">
-        <div class="section-label">
-          <i class="ph ph-star-four"></i> Core Features
-        </div>
+        <div class="section-label"><i class="ph ph-star-four"></i> Core Features</div>
         <h2 class="section-title">
-          Everything your team needs<br>
-          to <span class="gradient-text">move fast</span>
+          <span id="gradient-cycle" style="transition:opacity 0.22s,transform 0.22s">Write</span>, plan &amp; summarize<br>
+          <span class="gradient-text">10x faster with AI</span>
         </h2>
-        <p class="section-sub">
-          Built for creators, teams, and professionals who refuse to settle for average output.
-        </p>
+        <p class="section-sub">Built for creators, teams, and professionals who refuse to settle for average output.</p>
       </div>
 
       <div class="features-grid">
-
-        <!-- Featured Card -->
-        <div class="feat-card featured reveal">
-          <div class="icon-box purple">
-            <i class="ph ph-pencil-simple-line"></i>
-          </div>
+        <div class="feat-card featured reveal" data-tooltip="Our most-used feature">
+          <div class="icon-box purple"><i class="ph ph-pencil-simple-line"></i></div>
           <div class="feat-title">AI Writing Engine</div>
-          <div class="feat-desc">From first draft to final copy &mdash; generate blog posts, emails, reports, ad copy,
-            and more with a single prompt. The AI adapts to your unique voice and brand guidelines.</div>
-          <a href="features.html" class="feat-link">
-            Explore Writing Tools <i class="ph ph-arrow-right"></i>
-          </a>
-          <div class="feat-demo">
-            <div class="write-anim">
-              <div class="write-bar" style="animation-delay:0s"></div>
-              <div class="write-bar" style="animation-delay:0.3s"></div>
-              <div class="write-bar" style="animation-delay:0.6s;width:65%"></div>
-            </div>
-          </div>
+          <div class="feat-desc">From first draft to final copy — generate blog posts, emails, reports, ad copy, and more with a single prompt. Adapts to your voice and brand.</div>
+          <a href="features.html" class="feat-link">Explore Writing Tools <i class="ph ph-arrow-right"></i></a>
+          <div class="feat-demo"><div class="write-anim"><div class="write-bar"></div><div class="write-bar"></div><div class="write-bar" style="width:65%"></div></div></div>
         </div>
-
-        <!-- Card 2 -->
         <div class="feat-card reveal">
-          <div class="icon-box cyan">
-            <i class="ph ph-check-square"></i>
-          </div>
+          <div class="icon-box cyan"><i class="ph ph-check-square"></i></div>
           <div class="feat-title">Smart Task Planner</div>
-          <div class="feat-desc">Break down projects into actionable steps automatically. AI prioritizes, schedules, and
-            adapts your workflow in real-time.</div>
-          <a href="features.html" class="feat-link">
-            Learn More <i class="ph ph-arrow-right"></i>
-          </a>
+          <div class="feat-desc">Break down projects into actionable steps automatically. AI prioritizes, schedules, and adapts your workflow in real-time.</div>
+          <a href="features.html" class="feat-link">Learn More <i class="ph ph-arrow-right"></i></a>
         </div>
-
-        <!-- Card 3 -->
         <div class="feat-card reveal">
-          <div class="icon-box pink">
-            <i class="ph ph-lightning"></i>
-          </div>
+          <div class="icon-box pink"><i class="ph ph-lightning"></i></div>
           <div class="feat-title">Instant Summarizer</div>
-          <div class="feat-desc">Drop any article, PDF, or URL and get a crisp, structured summary in seconds. Never
-            miss key insights again.</div>
-          <a href="features.html" class="feat-link">
-            Learn More <i class="ph ph-arrow-right"></i>
-          </a>
+          <div class="feat-desc">Drop any article, PDF, or URL and get a crisp, structured summary in seconds. Never miss key insights again.</div>
+          <a href="features.html" class="feat-link">Learn More <i class="ph ph-arrow-right"></i></a>
         </div>
-
-        <!-- Card 4 -->
         <div class="feat-card reveal">
-          <div class="icon-box amber">
-            <i class="ph ph-brain"></i>
-          </div>
+          <div class="icon-box amber"><i class="ph ph-brain"></i></div>
           <div class="feat-title">Memory &amp; Context</div>
-          <div class="feat-desc">Nexus AI remembers your projects, style preferences, and team terminology across every
-            session automatically.</div>
-          <a href="features.html" class="feat-link">
-            Learn More <i class="ph ph-arrow-right"></i>
-          </a>
+          <div class="feat-desc">Nexus AI remembers your projects, style preferences, and team terminology across every session automatically.</div>
+          <a href="features.html" class="feat-link">Learn More <i class="ph ph-arrow-right"></i></a>
         </div>
-
-        <!-- Card 5 -->
         <div class="feat-card reveal">
-          <div class="icon-box green">
-            <i class="ph ph-link"></i>
-          </div>
+          <div class="icon-box green"><i class="ph ph-link"></i></div>
           <div class="feat-title">Deep Integrations</div>
-          <div class="feat-desc">Connects with Notion, Slack, Google Drive, Linear, and 50+ tools your team already
-            relies on daily.</div>
-          <a href="features.html" class="feat-link">
-            View All Integrations <i class="ph ph-arrow-right"></i>
-          </a>
+          <div class="feat-desc">Connects with Notion, Slack, Google Drive, Linear, and 50+ tools your team already relies on daily.</div>
+          <a href="features.html" class="feat-link">View All Integrations <i class="ph ph-arrow-right"></i></a>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-     HOW IT WORKS
-══════════════════════════════════════════════════════ -->
-  <section class="section"
-    style="background:rgba(255,255,255,0.015);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="section-glow-divider"></div>
+
+  <!-- ══ BEFORE / AFTER ═══════════════════════════════════════ -->
+  <section class="section" id="compare" style="padding-top:80px">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:52px">
+        <div class="section-label" style="justify-content:center"><i class="ph ph-arrows-left-right"></i> Before vs After</div>
+        <h2 class="section-title reveal">See the <span class="gradient-text">transformation</span></h2>
+        <p class="section-sub reveal" style="margin:14px auto 0">Drag the slider to compare your workflow before and after Nexus AI.</p>
+      </div>
+      <div class="ba-slider reveal" style="height:300px;background:var(--surface)">
+        <div class="ba-before" style="background:var(--surface2)">
+          <div style="padding:28px;height:100%;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:0.75rem;color:var(--muted);font-weight:600;letter-spacing:0.08em;text-transform:uppercase">Before Nexus AI</div>
+            <div style="display:flex;flex-direction:column;gap:9px;opacity:0.7">
+              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem;color:var(--muted)"><i class="ph ph-x-circle" style="color:var(--accent3)"></i> 3 hrs to write a blog post</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem;color:var(--muted)"><i class="ph ph-x-circle" style="color:var(--accent3)"></i> Monday planning takes 2 hours</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem;color:var(--muted)"><i class="ph ph-x-circle" style="color:var(--accent3)"></i> Reading 40-page reports manually</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem;color:var(--muted)"><i class="ph ph-x-circle" style="color:var(--accent3)"></i> 5 different tools for one workflow</div>
+            </div>
+            <div class="ba-label" style="margin-top:auto"><i class="ph ph-clock"></i> 6+ hours/day on busy work</div>
+          </div>
+        </div>
+        <div class="ba-after" style="background:linear-gradient(135deg,rgba(108,99,255,0.1),var(--surface))">
+          <div style="padding:28px;height:100%;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:0.75rem;color:var(--accent2);font-weight:600;letter-spacing:0.08em;text-transform:uppercase">After Nexus AI</div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem"><i class="ph ph-check-circle" style="color:var(--accent5)"></i> Blog post in 8 minutes, AI-written</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem"><i class="ph ph-check-circle" style="color:var(--accent5)"></i> Full week plan in 30 seconds</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem"><i class="ph ph-check-circle" style="color:var(--accent5)"></i> 40-page doc summarized in 12 sec</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:0.81rem"><i class="ph ph-check-circle" style="color:var(--accent5)"></i> Everything in one unified workspace</div>
+            </div>
+            <div class="ba-label" style="margin-top:auto;border-color:rgba(52,211,153,0.3);color:var(--accent5)"><i class="ph ph-lightning"></i> 45 min/day on what matters</div>
+          </div>
+        </div>
+        <div class="ba-handle"><div class="ba-handle-circle"><i class="ph ph-arrows-horizontal"></i></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-glow-divider"></div>
+
+  <!-- ══ HOW IT WORKS ══════════════════════════════════════════ -->
+  <section class="section" style="background:rgba(255,255,255,0.015);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
     <div class="container">
       <div class="text-center">
-        <div class="section-label" style="justify-content:center">
-          <i class="ph ph-star-four"></i> How It Works
-        </div>
-        <h2 class="section-title">
-          Up and running in <span class="gradient-text">3 minutes</span>
-        </h2>
-        <p class="section-sub" style="margin:0 auto">
-          No steep learning curves. No lengthy onboarding. Just results from day one.
-        </p>
+        <div class="section-label" style="justify-content:center"><i class="ph ph-star-four"></i> How It Works</div>
+        <h2 class="section-title">Up and running in <span class="gradient-text">3 minutes</span></h2>
+        <p class="section-sub" style="margin:0 auto">No steep learning curves. No lengthy onboarding. Just results from day one.</p>
       </div>
-
       <div class="steps-wrap">
         <div class="steps-line"></div>
-
-        <div class="step reveal">
-          <div class="step-num step-1">01</div>
-          <div class="step-title">Create Your Workspace</div>
-          <div class="step-desc">Sign up free and tell Nexus about your role, goals, and preferred working style. Setup
-            takes under 2 minutes.</div>
-        </div>
-
-        <div class="step reveal">
-          <div class="step-num step-2">02</div>
-          <div class="step-title">Describe What You Need</div>
-          <div class="step-desc">Type a prompt, paste a document, or outline a project. Nexus interprets natural
-            language with remarkable precision.</div>
-        </div>
-
-        <div class="step reveal">
-          <div class="step-num step-3">03</div>
-          <div class="step-title">Ship Faster Than Ever</div>
-          <div class="step-desc">Review, refine, and export your AI-crafted content or task plan directly to your
-            favorite tools.</div>
-        </div>
+        <div class="step reveal"><div class="step-num step-1">01</div><div class="step-title">Create Your Workspace</div><div class="step-desc">Sign up free and tell Nexus about your role, goals, and preferred working style. Setup takes under 2 minutes.</div></div>
+        <div class="step reveal"><div class="step-num step-2">02</div><div class="step-title">Describe What You Need</div><div class="step-desc">Type a prompt, paste a document, or outline a project. Nexus interprets natural language with remarkable precision.</div></div>
+        <div class="step reveal"><div class="step-num step-3">03</div><div class="step-title">Ship Faster Than Ever</div><div class="step-desc">Review, refine, and export your AI-crafted content or task plan directly to your favorite tools.</div></div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-     TOOLS DEEP DIVE
-══════════════════════════════════════════════════════ -->
-  <section class="section" id="tools">
+  <!-- ══ LIVE AI DEMO ══════════════════════════════════════════ -->
+  <section class="section" id="demo">
     <div class="container">
-      <div class="section-label">
-        <i class="ph ph-star-four"></i> Core Features
+      <div style="margin-bottom:48px">
+        <div class="section-label"><i class="ph ph-play-circle"></i> Live Demo</div>
+        <h2 class="section-title reveal">Experience it<br><span class="gradient-text">in real-time</span></h2>
+        <p class="section-sub reveal">Select a tool, enter your prompt, and let Nexus AI (via Groq) generate the results live.</p>
       </div>
-      <h2 class="section-title">
-        The heart of your<br>
-        <span class="gradient-text">design system.</span>
-      </h2>
-
-      <div class="specify-cards">
-        <!-- Card 1 -->
-        <div class="sp-card">
-          <h3>Sync your tokens</h3>
-          <p>Specify is natively compatible with Figma, GitHub, Notion, Raycast, and many more to come. Our REST API and CLI help you to connect even more.</p>
-          <a href="#" class="sp-pill">Discover all available apps <i class="ph-fill ph-arrow-circle-right"></i></a>
-          <div class="sp-visual">
-            <div class="visual-fade"></div>
-            <div class="sp-apps">
-              <div class="sp-app"><i class="ph-fill ph-figma-logo" style="color:#F24E1E"></i></div>
-              <div class="sp-app"><i class="ph-fill ph-github-logo" style="color:#fff"></i></div>
-              <div class="sp-app" style="background:#5B42F3; color:#fff"><i class="ph-fill ph-cube"></i></div>
-              <div class="sp-app" style="color:#10B981"><i class="ph-fill ph-terminal-window"></i></div>
-              <div class="sp-app" style="border-color:#5B42F3; color:#5B42F3"><span style="font-size:0.8rem;font-weight:700">SDK</span></div>
-            </div>
-            <div class="sp-apps" style="opacity:0.3; margin-top:12px; transform:scale(0.95)">
-              <div class="sp-app"><i class="ph-fill ph-slack-logo"></i></div>
-              <div class="sp-app"><i class="ph-fill ph-gitlab-logo"></i></div>
-              <div class="sp-app"></div>
-              <div class="sp-app"></div>
+      <div class="demo-section reveal">
+        <div class="demo-top" style="flex-direction:column; align-items:flex-start;">
+          <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:16px;">
+            <div><i class="ph ph-sparkle" style="color:var(--accent2)"></i> Nexus AI Studio</div>
+            <span class="badge badge-cyan" style="font-size:0.68rem"><span class="pulse-dot cyan" style="margin-right:3px"></span>Live via Groq</span>
+          </div>
+          
+          <div style="width:100%; display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap;">
+            <select class="demo-select" id="demo-type" style="flex:1; min-width:200px;">
+              <option value="writer">AI Writing Engine</option>
+              <option value="planner">Task Planning Engine</option>
+              <option value="summarizer">Smart Summarizer</option>
+            </select>
+            <div style="position: relative; flex:1; min-width:200px;">
+              <i class="ph ph-key" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted)"></i>
+              <input type="password" id="demo-api-key" placeholder="Groq API Key (Saved Locally)" style="width:100%; padding:9px 12px 9px 36px; border-radius:8px; background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:0.83rem; outline:none; box-sizing:border-box;">
             </div>
           </div>
+          
+          <textarea id="demo-prompt" class="custom-scroll" placeholder="E.g., Write a promotional email for a new tech product..." style="width:100%; padding:14px; border-radius:8px; background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:0.88rem; resize:vertical; min-height:80px; outline:none; box-sizing:border-box; margin-bottom:12px;"></textarea>
+          
+          <div style="width:100%; display:flex; justify-content:flex-end;">
+            <button id="demo-run"><i class="ph ph-sparkle"></i> Generate</button>
+          </div>
         </div>
+        <div class="demo-stats">
+          <div class="demo-stat-item"><i class="ph ph-lightning"></i> Speed: <strong id="demo-wpm">0</strong> tokens/s</div>
+          <div class="demo-stat-item"><i class="ph ph-text-aa"></i> Tokens: <strong id="demo-words">0</strong></div>
+          <div class="demo-stat-item"><i class="ph ph-check-circle" style="color:var(--accent5)"></i> AI Model: <strong id="demo-model-label">llama-3.3-70b-versatile</strong></div>
+        </div>
+        <div class="demo-output-wrap">
+          <div id="demo-output" class="custom-scroll"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Card 2 -->
-        <div class="sp-card">
-          <h3>Customize outputs</h3>
-          <p>Specify's open source parsers help you generate design tokens and assets that match your company standards.</p>
-          <a href="#" class="sp-pill">Discover all parsers <i class="ph-fill ph-arrow-circle-right"></i></a>
-          <div class="sp-visual" style="padding:0">
-            <div class="visual-fade"></div>
-            <div class="sp-tags">
-              <div class="sp-tag"><i class="ph-fill ph-gear"></i> to-css-custom-properties</div>
-              <div class="sp-tag"><i class="ph-fill ph-lightning" style="color:#4ADE80"></i> omit</div>
-              <div class="sp-tag" style="border-color:#F59E0B; background:rgba(245,158,11,0.05); color:#F59E0B"><i class="ph-fill ph-text-aa"></i> snakecasify</div>
-            </div>
-            <div class="sp-tags" style="margin-top:10px">
-              <div class="sp-tag"><i class="ph-fill ph-gear"></i> to-tailwind</div>
-              <div class="sp-tag"><i class="ph-fill ph-lightning" style="color:#4ADE80"></i> prefix-by</div>
-              <div class="sp-tag"><i class="ph-fill ph-lightning" style="color:#4ADE80"></i> filter</div>
-            </div>
-            <div class="sp-tags" style="margin-top:10px; opacity:0.5">
-              <div class="sp-tag"><i class="ph-fill ph-gear"></i> to-react-native</div>
-              <div class="sp-tag" style="border-color:#F59E0B"><i class="ph-fill ph-text-aa" style="color:#F59E0B"></i> pascalcasify</div>
-            </div>
+  <!-- ══ TOOLS DEEP DIVE ═══════════════════════════════════════ -->
+  <section class="section" id="tools" style="border-top:1px solid var(--border)">
+    <div class="container">
+      <div class="section-label"><i class="ph ph-star-four"></i> Deep Dive</div>
+      <h2 class="section-title">Three tools.<br><span class="gradient-text">Infinite possibilities.</span></h2>
+
+      <div class="tools-layout">
+        <div class="tool-tabs">
+          <div class="tool-tab active" data-tab="0"><div class="tab-title"><i class="ph ph-lightning" style="color:var(--accent2)"></i> Smart Summarization</div><div class="tab-desc">Paste any content and receive a structured, insight-rich summary with highlighted key points and action items extracted automatically.</div></div>
+          <div class="tool-tab" data-tab="1"><div class="tab-title"><i class="ph ph-check-square" style="color:var(--accent)"></i> Task Planning Engine</div><div class="tab-desc">Describe a project in plain English. Get a fully scoped task breakdown with priorities, deadlines, and dependency mapping.</div></div>
+          <div class="tool-tab" data-tab="2"><div class="tab-title"><i class="ph ph-pencil-simple-line" style="color:var(--accent3)"></i> AI Writing Studio</div><div class="tab-desc">Write anything with real-time tone suggestions, rewrite modes, and SEO optimization built directly into the editor.</div></div>
+        </div>
+        <div class="tool-screen">
+          <div id="panel-0" class="tab-panel active">
+            <div class="tool-screen-title"><i class="ph ph-lightning" style="color:var(--accent2);margin-right:6px"></i>Document Summary</div>
+            <div class="tool-screen-sub">Q4 Strategy Report &middot; 24 pages &rarr; 8 key insights</div>
+            <div style="margin-bottom:14px"><div class="summary-key" style="width:90%"></div><div class="summary-line" style="width:100%"></div><div class="summary-line" style="width:75%"></div></div>
+            <div style="margin-bottom:18px"><div class="summary-key" style="width:70%"></div><div class="summary-line" style="width:100%"></div><div class="summary-line" style="width:60%"></div></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="badge badge-purple"><i class="ph ph-trend-up"></i> Revenue +32%</span><span class="badge badge-cyan"><i class="ph ph-warning"></i> 3 risks</span><span class="badge badge-green"><i class="ph ph-flag"></i> Q1 targets</span></div>
+          </div>
+          <div id="panel-1" class="tab-panel" style="display:none">
+            <div class="tool-screen-title"><i class="ph ph-check-square" style="color:var(--accent);margin-right:6px"></i>Project Tasks</div>
+            <div class="tool-screen-sub">Website Redesign &middot; 8 tasks &middot; Est. 2 weeks</div>
+            <div class="plan-task"><div class="task-check check-done"><i class="ph ph-check"></i></div><div class="task-text task-done-text">Discovery &amp; research</div><span class="priority high">High</span></div>
+            <div class="plan-task"><div class="task-check check-done"><i class="ph ph-check"></i></div><div class="task-text task-done-text">Wireframe key pages</div><span class="priority high">High</span></div>
+            <div class="plan-task"><div class="task-check check-todo"></div><div class="task-text">Design system setup</div><span class="priority med">Med</span></div>
+            <div class="plan-task"><div class="task-check check-todo"></div><div class="task-text">Frontend development</div><span class="priority low">Low</span></div>
+          </div>
+          <div id="panel-2" class="tab-panel" style="display:none">
+            <div class="tool-screen-title"><i class="ph ph-pencil-simple-line" style="color:var(--accent3);margin-right:6px"></i>AI Writing Studio</div>
+            <div class="tool-screen-sub">Blog Draft &middot; "Future of remote work" &middot; Tone: Professional</div>
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;margin:16px 0"><div class="skeleton accent w100"></div><div class="skeleton w85"></div><div class="skeleton w100"></div><div class="skeleton w70"></div></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="badge badge-purple"><i class="ph ph-arrows-clockwise"></i> Rewrite</span><span class="badge badge-cyan"><i class="ph ph-minus-circle"></i> Shorter</span><span class="badge badge-green"><i class="ph ph-plus-circle"></i> Expand</span></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-     TESTIMONIALS
-══════════════════════════════════════════════════════ -->
+  <!-- ══ TESTIMONIALS ══════════════════════════════════════════ -->
   <section class="section" id="testi" style="background:rgba(255,255,255,0.01);border-top:1px solid var(--border)">
     <div class="container">
       <div class="text-center">
-        <div class="section-label" style="justify-content:center">
-          <i class="ph ph-star-four"></i> Testimonials
-        </div>
-        <h2 class="section-title">
-          Loved by <span class="gradient-text">thousands</span> of teams
-        </h2>
+        <div class="section-label" style="justify-content:center"><i class="ph ph-star-four"></i> Testimonials</div>
+        <h2 class="section-title">Loved by <span class="gradient-text">thousands</span> of teams</h2>
       </div>
-
       <div class="testi-grid">
-        <div class="testi-card reveal">
-          <div class="testi-stars">
-            <i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i>
-            <i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i>
-            <i class="ph ph-star-fill"></i>
-          </div>
-          <p class="testi-text">"Nexus AI cut our content production time in half. The writing quality is remarkable
-            &mdash; it sounds like us, not a robot. An absolute game-changer."</p>
-          <div class="testi-author">
-            <div class="testi-avatar av-purple">
-              <i class="ph ph-user-circle-fill" style="font-size:1.4rem;color:#fff"></i>
-            </div>
-            <div>
-              <div class="testi-name">Priya Sharma</div>
-              <div class="testi-role">Head of Content, Growthly</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testi-card reveal">
-          <div class="testi-stars">
-            <i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i>
-            <i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i>
-            <i class="ph ph-star-fill"></i>
-          </div>
-          <p class="testi-text">"The task planner alone is worth 10x the price. I went from chaotic to-do lists to a
-            fully organized sprint board in under 5 minutes."</p>
-          <div class="testi-author">
-            <div class="testi-avatar av-cyan">
-              <i class="ph ph-user-circle-fill" style="font-size:1.4rem;color:#fff"></i>
-            </div>
-            <div>
-              <div class="testi-name">Marcus Lee</div>
-              <div class="testi-role">Product Lead, Archetype</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testi-card reveal">
-          <div class="testi-stars">
-            <i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i>
-            <i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i>
-            <i class="ph ph-star-fill"></i>
-          </div>
-          <p class="testi-text">"I dropped a 40-page investor report and got a crisp 8-point summary in 12 seconds. I've
-            never felt so in control of information overload."</p>
-          <div class="testi-author">
-            <div class="testi-avatar av-pink">
-              <i class="ph ph-user-circle-fill" style="font-size:1.4rem;color:#fff"></i>
-            </div>
-            <div>
-              <div class="testi-name">Anika Patel</div>
-              <div class="testi-role">Founder, VentureBase</div>
-            </div>
-          </div>
-        </div>
+        <div class="testi-card reveal"><div class="testi-stars"><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i></div><p class="testi-text">"Nexus AI cut our content production time in half. The writing quality is remarkable — it sounds like us, not a robot. An absolute game-changer."</p><div class="testi-author"><div class="testi-avatar av-purple"><i class="ph ph-user-circle-fill" style="font-size:1.4rem;color:#fff"></i></div><div><div class="testi-name">Priya Sharma</div><div class="testi-role">Head of Content, Growthly</div></div></div></div>
+        <div class="testi-card reveal"><div class="testi-stars"><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i></div><p class="testi-text">"The task planner alone is worth 10x the price. I went from chaotic to-do lists to a fully organized sprint board in under 5 minutes."</p><div class="testi-author"><div class="testi-avatar av-cyan"><i class="ph ph-user-circle-fill" style="font-size:1.4rem;color:#fff"></i></div><div><div class="testi-name">Marcus Lee</div><div class="testi-role">Product Lead, Archetype</div></div></div></div>
+        <div class="testi-card reveal"><div class="testi-stars"><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i></div><p class="testi-text">"I dropped a 40-page investor report and got a crisp 8-point summary in 12 seconds. I've never felt so in control of information overload."</p><div class="testi-author"><div class="testi-avatar av-pink"><i class="ph ph-user-circle-fill" style="font-size:1.4rem;color:#fff"></i></div><div><div class="testi-name">Anika Patel</div><div class="testi-role">Founder, VentureBase</div></div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-     PRICING TEASER
-══════════════════════════════════════════════════════ -->
+  <!-- ══ PRICING ══════════════════════════════════════════════ -->
   <section class="section" id="pricing">
     <div class="container">
       <div class="text-center">
-        <div class="section-label" style="justify-content:center">
-          <i class="ph ph-star-four"></i> Pricing
-        </div>
-        <h2 class="section-title">
-          Simple. <span class="gradient-text">Transparent.</span> Fair.
-        </h2>
-        <p class="section-sub" style="margin:14px auto 0">
-          Start free, scale as you grow. No hidden fees, no credit card required.
-        </p>
+        <div class="section-label" style="justify-content:center"><i class="ph ph-star-four"></i> Pricing</div>
+        <h2 class="section-title">Simple. <span class="gradient-text">Transparent.</span> Fair.</h2>
+        <p class="section-sub" style="margin:14px auto 0">Start free, scale as you grow. No hidden fees, no credit card required.</p>
       </div>
-
       <div class="pricing-grid">
-        <div class="price-card reveal">
-          <div class="price-plan">Starter</div>
-          <div class="price-amount"><sup>$</sup>0</div>
-          <div class="price-period">Forever free</div>
-          <ul class="price-feats">
-            <li class="on"><i class="ph ph-check-circle"></i> 5,000 AI words / month</li>
-            <li class="on"><i class="ph ph-check-circle"></i> 10 task plans / month</li>
-            <li class="on"><i class="ph ph-check-circle"></i> 3 document summaries</li>
-            <li class="off"><i class="ph ph-minus-circle"></i> Team collaboration</li>
-            <li class="off"><i class="ph ph-minus-circle"></i> Priority support</li>
-          </ul>
-          <button class="btn-price outline">Get Started Free</button>
-        </div>
-
-        <div class="price-card popular reveal">
-          <span class="popular-label">Most Popular</span>
-          <div class="price-plan">Pro</div>
-          <div class="price-amount"><sup>$</sup>19</div>
-          <div class="price-period">per user / month</div>
-          <ul class="price-feats">
-            <li class="on"><i class="ph ph-check-circle"></i> Unlimited AI writing</li>
-            <li class="on"><i class="ph ph-check-circle"></i> Unlimited task plans</li>
-            <li class="on"><i class="ph ph-check-circle"></i> Unlimited summaries</li>
-            <li class="on"><i class="ph ph-check-circle"></i> Team collaboration (5 seats)</li>
-            <li class="on"><i class="ph ph-check-circle"></i> Priority support</li>
-          </ul>
-          <button class="btn-price filled">
-            <i class="ph ph-rocket-launch"></i>
-            Start Pro Trial
-          </button>
-        </div>
-
-        <div class="price-card reveal">
-          <div class="price-plan">Enterprise</div>
-          <div class="price-amount" style="font-size:2rem">Custom</div>
-          <div class="price-period">volume pricing</div>
-          <ul class="price-feats">
-            <li class="on"><i class="ph ph-check-circle"></i> Unlimited everything</li>
-            <li class="on"><i class="ph ph-check-circle"></i> Unlimited seats</li>
-            <li class="on"><i class="ph ph-check-circle"></i> Custom AI persona</li>
-            <li class="on"><i class="ph ph-check-circle"></i> SSO &amp; security</li>
-            <li class="on"><i class="ph ph-check-circle"></i> Dedicated manager</li>
-          </ul>
-          <button class="btn-price outline">
-            Contact Sales <i class="ph ph-arrow-right"></i>
-          </button>
-        </div>
+        <div class="price-card reveal"><div class="price-plan">Starter</div><div class="price-amount"><sup>$</sup>0</div><div class="price-period">Forever free</div><ul class="price-feats"><li class="on"><i class="ph ph-check-circle"></i> 5,000 AI words / month</li><li class="on"><i class="ph ph-check-circle"></i> 10 task plans / month</li><li class="on"><i class="ph ph-check-circle"></i> 3 document summaries</li><li class="off"><i class="ph ph-minus-circle"></i> Team collaboration</li><li class="off"><i class="ph ph-minus-circle"></i> Priority support</li></ul><button class="btn-price outline">Get Started Free</button></div>
+        <div class="price-card popular reveal"><span class="popular-label">Most Popular</span><div class="price-plan">Pro</div><div class="price-amount"><sup>$</sup>19</div><div class="price-period">per user / month</div><ul class="price-feats"><li class="on"><i class="ph ph-check-circle"></i> Unlimited AI writing</li><li class="on"><i class="ph ph-check-circle"></i> Unlimited task plans</li><li class="on"><i class="ph ph-check-circle"></i> Unlimited summaries</li><li class="on"><i class="ph ph-check-circle"></i> Team collaboration (5 seats)</li><li class="on"><i class="ph ph-check-circle"></i> Priority support</li></ul><button class="btn-price filled"><i class="ph ph-rocket-launch"></i> Start Pro Trial</button></div>
+        <div class="price-card reveal"><div class="price-plan">Enterprise</div><div class="price-amount" style="font-size:2rem">Custom</div><div class="price-period">volume pricing</div><ul class="price-feats"><li class="on"><i class="ph ph-check-circle"></i> Unlimited everything</li><li class="on"><i class="ph ph-check-circle"></i> Unlimited seats</li><li class="on"><i class="ph ph-check-circle"></i> Custom AI persona</li><li class="on"><i class="ph ph-check-circle"></i> SSO &amp; security</li><li class="on"><i class="ph ph-check-circle"></i> Dedicated manager</li></ul><button class="btn-price outline">Contact Sales <i class="ph ph-arrow-right"></i></button></div>
       </div>
-
-      <div style="text-align:center;margin-top:32px">
-        <a href="pricing.html" class="btn btn-ghost" style="display:inline-flex">
-          View full pricing details <i class="ph ph-arrow-right"></i>
-        </a>
-      </div>
+      <div style="text-align:center;margin-top:32px"><a href="pricing.html" class="btn btn-ghost" style="display:inline-flex">View full pricing details <i class="ph ph-arrow-right"></i></a></div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-     CTA BANNER
-══════════════════════════════════════════════════════ -->
+  <!-- ══ CTA ══════════════════════════════════════════════════ -->
   <section class="section" id="contact">
     <div class="container">
       <div class="cta-banner reveal">
@@ -584,83 +527,62 @@
         </h2>
         <p class="cta-desc">Join 50,000+ professionals already shipping faster, thinking clearer, and working smarter with Nexus AI.</p>
         <div class="cta-actions">
-          <button class="btn btn-primary btn-xl">
-            <i class="ph ph-rocket-launch"></i>
-            Start for Free &mdash; No Card Needed
-          </button>
-          <a href="features.html" class="btn btn-outline btn-xl">
-            Explore Features <i class="ph ph-arrow-right"></i>
-          </a>
+          <button class="btn btn-primary btn-xl"><i class="ph ph-rocket-launch"></i> Start for Free — No Card Needed</button>
+          <a href="features.html" class="btn btn-outline btn-xl">Explore Features <i class="ph ph-arrow-right"></i></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-     FOOTER
-══════════════════════════════════════════════════════ -->
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="nav-logo">
-            <div class="nav-logo-icon"><i class="ph ph-lightning-slash"></i></div>
-            Nexus<span>AI</span>
-          </a>
+          <a href="index.html" class="nav-logo"><div class="nav-logo-icon"><i class="ph ph-lightning-slash"></i></div>Nexus<span>AI</span></a>
           <p class="footer-desc">AI productivity tools designed for the way modern teams actually think and work.</p>
+          <div style="margin-top:14px;font-size:0.7rem;color:var(--muted)">
+            Press <kbd style="background:var(--surface2);border:1px solid var(--border);padding:1px 4px;border-radius:4px;font-size:0.62rem">?</kbd> shortcuts &nbsp;&middot;&nbsp;
+            <kbd style="background:var(--surface2);border:1px solid var(--border);padding:1px 4px;border-radius:4px;font-size:0.62rem">⌘K</kbd> search
+          </div>
         </div>
-        <div>
-          <div class="footer-col-title">Product</div>
-          <ul class="footer-links">
-            <li><a href="features.html">AI Writing</a></li>
-            <li><a href="features.html">Task Planner</a></li>
-            <li><a href="features.html">Summarizer</a></li>
-            <li><a href="features.html">Integrations</a></li>
-            <li><a href="#">Changelog</a></li>
-          </ul>
-        </div>
-        <div>
-          <div class="footer-col-title">Company</div>
-          <ul class="footer-links">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Press</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <div class="footer-col-title">Legal</div>
-          <ul class="footer-links">
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Cookie Settings</a></li>
-            <li><a href="#">Security</a></li>
-          </ul>
-        </div>
+        <div><div class="footer-col-title">Product</div><ul class="footer-links"><li><a href="features.html">AI Writing</a></li><li><a href="features.html">Task Planner</a></li><li><a href="features.html">Summarizer</a></li><li><a href="features.html">Integrations</a></li><li><a href="#">Changelog</a></li></ul></div>
+        <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Contact</a></li></ul></div>
+        <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Cookie Settings</a></li><li><a href="#">Security</a></li></ul></div>
       </div>
-
       <div class="footer-bottom">
         <div class="footer-copy">&copy; 2025 Nexus AI &middot; All rights reserved.</div>
         <div class="footer-socials">
-          <a href="#" class="social-btn" aria-label="Twitter/X">
-            <i class="ph ph-x-logo"></i>
-          </a>
-          <a href="#" class="social-btn" aria-label="LinkedIn">
-            <i class="ph ph-linkedin-logo"></i>
-          </a>
-          <a href="#" class="social-btn" aria-label="GitHub">
-            <i class="ph ph-github-logo"></i>
-          </a>
+          <a href="#" class="social-btn"><i class="ph ph-x-logo"></i></a>
+          <a href="#" class="social-btn"><i class="ph ph-linkedin-logo"></i></a>
+          <a href="#" class="social-btn"><i class="ph ph-github-logo"></i></a>
         </div>
       </div>
     </div>
   </footer>
 
+  <!-- COOKIE BANNER -->
+  <div id="cookie-banner">
+    <div class="cookie-text">We use cookies to give you the best experience. By continuing, you agree to our <a href="#">Privacy Policy</a>.</div>
+    <div class="cookie-btns">
+      <button id="cookie-accept">Accept All</button>
+      <button id="cookie-decline">Decline</button>
+    </div>
+  </div>
+
   <!-- ── SCRIPTS ─────────────────────────────────────────── -->
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/features.js"></script>
   <script src="js/chatbot.js"></script>
+  <script>
+    document.addEventListener('keydown', e => {
+      if (e.key === 'c' && !e.target.matches('input,textarea') && !e.metaKey && !e.ctrlKey) {
+        document.getElementById('chatbotToggle')?.click();
+      }
+    });
+  </script>
 
 </body>
 

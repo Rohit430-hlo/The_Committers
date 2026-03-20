@@ -1,25 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Features — Nexus AI</title>
   <meta name="description" content="Explore Nexus AI's powerful writing, task planning, and summarization features." />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
   <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
-
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/nav.css" />
   <link rel="stylesheet" href="css/features.css" />
   <link rel="stylesheet" href="css/chatbot.css" />
+  <link rel="stylesheet" href="css/advanced.css" />
 </head>
 <body>
 
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-logo">
+    <div class="loader-logo-icon"><i class="ph ph-lightning-slash"></i></div>
+    NexusAI
+  </div>
+  <div class="loader-track"><div class="loader-bar"></div></div>
+  <div class="loader-pct">0%</div>
+</div>
+
+<!-- BACKGROUNDS -->
+<canvas id="particle-canvas"></canvas>
 <div class="grid-bg"></div>
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
@@ -29,6 +46,19 @@
   <div class="cursor-dot"></div>
   <div class="cursor-ring"></div>
 </div>
+
+<!-- READING PROGRESS RING -->
+<div id="reading-ring">
+  <svg width="44" height="44" viewBox="0 0 44 44">
+    <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#6c63ff"/><stop offset="100%" stop-color="#00e5ff"/></linearGradient></defs>
+    <circle class="ring-bg" cx="22" cy="22" r="18"/>
+    <circle class="ring-fill" cx="22" cy="22" r="18"/>
+  </svg>
+  <div class="ring-center">%</div>
+</div>
+
+<!-- BACK TO TOP -->
+<button id="back-to-top" data-tooltip="Back to top"><i class="ph ph-arrow-up"></i></button>
 
 <!-- NAVBAR -->
 <nav class="navbar">
@@ -43,7 +73,12 @@
     <li><a href="index.html#testi">Reviews</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
-  <div class="nav-cta">
+  <div class="nav-cta" style="display:flex;align-items:center;gap:10px">
+    <button id="cmd-trigger" class="hide-mobile" data-tooltip="Command palette (Cmd+K)">
+      <i class="ph ph-magnifying-glass"></i><span>Search…</span>
+      <div class="cmd-trigger-keys"><kbd>⌘</kbd><kbd>K</kbd></div>
+    </button>
+    <button id="theme-toggle" data-tooltip="Toggle theme (T)"><i class="ph ph-sun"></i></button>
     <button class="btn btn-ghost hide-mobile">Sign In</button>
     <button class="btn btn-primary">Get Started Free <i class="ph ph-arrow-right"></i></button>
   </div>
@@ -56,6 +91,36 @@
   <a href="features.html">Features</a>
   <a href="pricing.html">Pricing</a>
   <button class="btn btn-primary">Get Started Free <i class="ph ph-arrow-right"></i></button>
+</div>
+
+<!-- COMMAND PALETTE -->
+<div id="cmd-palette">
+  <div class="cmd-overlay"></div>
+  <div class="cmd-box">
+    <div class="cmd-search">
+      <i class="ph ph-magnifying-glass"></i>
+      <input class="cmd-input" type="text" placeholder="Search pages, actions, settings…" autocomplete="off"/>
+      <span class="cmd-shortcut-hint">ESC to close</span>
+    </div>
+    <div class="cmd-results"></div>
+    <div class="cmd-footer">
+      <span><span class="cmd-key">↑↓</span> Navigate</span>
+      <span><span class="cmd-key">↵</span> Select</span>
+      <span><span class="cmd-key">ESC</span> Close</span>
+    </div>
+  </div>
+</div>
+
+<!-- SHORTCUTS MODAL -->
+<div id="shortcuts-modal">
+  <div class="shortcuts-box">
+    <div class="shortcuts-title"><i class="ph ph-keyboard"></i> Keyboard Shortcuts</div>
+    <div class="shortcut-row"><span>Open Command Palette</span><div class="shortcut-keys"><kbd>⌘</kbd><kbd>K</kbd></div></div>
+    <div class="shortcut-row"><span>Toggle Dark/Light Mode</span><div class="shortcut-keys"><kbd>T</kbd></div></div>
+    <div class="shortcut-row"><span>Show Shortcuts</span><div class="shortcut-keys"><kbd>?</kbd></div></div>
+    <div class="shortcut-row"><span>Close Modal</span><div class="shortcut-keys"><kbd>ESC</kbd></div></div>
+    <div style="margin-top:18px;text-align:center;font-size:0.73rem;color:var(--muted)">Press <kbd style="background:var(--surface2);border:1px solid var(--border);padding:1px 5px;border-radius:4px">ESC</kbd> to close</div>
+  </div>
 </div>
 
 
@@ -75,26 +140,15 @@
 
     <!-- Hero Stats -->
     <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">50K+</div>
-        <div class="stat-label">Active Users</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">3.2M</div>
-        <div class="stat-label">Tasks Completed</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">4.9★</div>
-        <div class="stat-label">User Rating</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">10x</div>
-        <div class="stat-label">Faster Workflow</div>
-      </div>
+      <div class="stat"><div class="stat-num">50K+</div><div class="stat-label">Active Users</div></div>
+      <div class="stat"><div class="stat-num">3.2M</div><div class="stat-label">Tasks Completed</div></div>
+      <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">User Rating</div></div>
+      <div class="stat"><div class="stat-num">10x</div><div class="stat-label">Faster Workflow</div></div>
     </div>
   </div>
 </div>
 
+<div class="section-glow-divider"></div>
 
 <section class="section" style="position:relative;z-index:1">
   <div class="container">
@@ -153,6 +207,7 @@
   </div>
 </section>
 
+<div class="section-glow-divider"></div>
 
 <section class="section" style="position:relative;z-index:1;border-top:1px solid var(--border)">
   <div class="container">
@@ -168,26 +223,20 @@
           <div class="deep-bullet"><i class="ph ph-check-circle"></i> Real-time collaboration with your team</div>
         </div>
         <div style="margin-top:28px">
-          <button class="btn btn-primary">
-            <i class="ph ph-pencil-simple-line"></i> Try AI Writing
-          </button>
+          <button class="btn btn-primary"><i class="ph ph-pencil-simple-line"></i> Try AI Writing</button>
         </div>
       </div>
       <div class="deep-visual">
         <div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
           <span class="badge badge-purple"><i class="ph ph-pencil-simple-line"></i> Writing Studio</span>
-          <span class="badge badge-cyan"><span class="pulse-dot cyan" style="margin-right:4px"></span> Live</span>
+          <span class="badge badge-cyan"><span class="pulse-dot cyan" style="margin-right:4px"></span>Live</span>
         </div>
         <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;margin-bottom:14px">
-          <div style="font-size:0.75rem;color:var(--muted);margin-bottom:10px">
-            <i class="ph ph-quote"></i> Prompt
-          </div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-bottom:10px"><i class="ph ph-quote"></i> Prompt</div>
           <div style="font-size:0.83rem;color:var(--text-secondary)">Write a compelling intro for a blog post about remote work productivity...</div>
         </div>
         <div style="background:rgba(108,99,255,0.06);border:1px solid rgba(108,99,255,0.18);border-radius:var(--radius-md);padding:16px">
-          <div style="font-size:0.75rem;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:5px">
-            <i class="ph ph-sparkle"></i> AI Output
-          </div>
+          <div style="font-size:0.75rem;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:5px"><i class="ph ph-sparkle"></i> AI Output</div>
           <div style="display:flex;flex-direction:column;gap:8px">
             <div class="skeleton accent w100"></div>
             <div class="skeleton w85"></div>
@@ -215,9 +264,7 @@
           <div class="deep-bullet"><i class="ph ph-check-circle"></i> Syncs with Jira, Linear, and Asana</div>
         </div>
         <div style="margin-top:28px">
-          <button class="btn btn-primary">
-            <i class="ph ph-check-square"></i> Try Task Planner
-          </button>
+          <button class="btn btn-primary"><i class="ph ph-check-square"></i> Try Task Planner</button>
         </div>
       </div>
       <div class="deep-visual">
@@ -256,6 +303,7 @@
   </div>
 </section>
 
+<div class="section-glow-divider"></div>
 
 <section class="section" style="position:relative;z-index:1;border-top:1px solid var(--border)">
   <div class="container">
@@ -274,61 +322,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="feature-name">AI Writing</td>
-            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-check-circle check-yes"></i></td>
-          </tr>
-          <tr>
-            <td class="feature-name">Task Planning</td>
-            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-          </tr>
-          <tr>
-            <td class="feature-name">Smart Summarizer</td>
-            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-          </tr>
-          <tr>
-            <td class="feature-name">Brand Voice Training</td>
-            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-            <td><i class="ph ph-check-circle check-yes"></i></td>
-          </tr>
-          <tr>
-            <td class="feature-name">Memory &amp; Context</td>
-            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-          </tr>
-          <tr>
-            <td class="feature-name">Native Integrations</td>
-            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-            <td><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-check-circle check-yes"></i></td>
-          </tr>
-          <tr>
-            <td class="feature-name">Free Plan</td>
-            <td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-check-circle check-yes"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-            <td><i class="ph ph-minus-circle check-no"></i></td>
-          </tr>
+          <tr><td class="feature-name">AI Writing</td><td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-check-circle check-yes"></i></td></tr>
+          <tr><td class="feature-name">Task Planning</td><td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-minus-circle check-no"></i></td><td><i class="ph ph-minus-circle check-no"></i></td><td><i class="ph ph-minus-circle check-no"></i></td></tr>
+          <tr><td class="feature-name">Smart Summarizer</td><td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-minus-circle check-no"></i></td><td><i class="ph ph-minus-circle check-no"></i></td></tr>
+          <tr><td class="feature-name">Brand Voice Training</td><td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-minus-circle check-no"></i></td><td><i class="ph ph-minus-circle check-no"></i></td><td><i class="ph ph-check-circle check-yes"></i></td></tr>
+          <tr><td class="feature-name">Memory &amp; Context</td><td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-minus-circle check-no"></i></td><td><i class="ph ph-minus-circle check-no"></i></td></tr>
+          <tr><td class="feature-name">Native Integrations</td><td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-minus-circle check-no"></i></td><td><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-check-circle check-yes"></i></td></tr>
+          <tr><td class="feature-name">Free Plan</td><td class="highlighted"><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-check-circle check-yes"></i></td><td><i class="ph ph-minus-circle check-no"></i></td><td><i class="ph ph-minus-circle check-no"></i></td></tr>
         </tbody>
       </table>
     </div>
   </div>
 </section>
 
+<div class="section-glow-divider"></div>
 
 <section class="section" style="position:relative;z-index:1;border-top:1px solid var(--border)">
   <div class="container">
@@ -336,58 +343,16 @@
     <h2 class="section-title">Connects with your <span class="gradient-text">entire stack</span></h2>
     <p class="section-sub">One-click integrations with 50+ tools your team already loves.</p>
     <div class="integrations-grid">
-      <div class="integration-card reveal">
-        <div class="integration-icon"><i class="ph ph-notion-logo"></i></div>
-        <div class="integration-name">Notion</div>
-      </div>
-      <div class="integration-card reveal">
-        <div class="integration-icon"><i class="ph ph-slack-logo"></i></div>
-        <div class="integration-name">Slack</div>
-      </div>
-      <div class="integration-card reveal">
-        <div class="integration-icon" style="background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.2)">
-          <i class="ph ph-google-drive-logo" style="color:var(--accent5)"></i>
-        </div>
-        <div class="integration-name">Google Drive</div>
-      </div>
-      <div class="integration-card reveal">
-        <div class="integration-icon" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.2)">
-          <i class="ph ph-kanban" style="color:var(--accent4)"></i>
-        </div>
-        <div class="integration-name">Linear</div>
-      </div>
-      <div class="integration-card reveal">
-        <div class="integration-icon" style="background:rgba(255,107,157,0.1);border-color:rgba(255,107,157,0.2)">
-          <i class="ph ph-envelope-simple" style="color:var(--accent3)"></i>
-        </div>
-        <div class="integration-name">Gmail</div>
-      </div>
-      <div class="integration-card reveal">
-        <div class="integration-icon"><i class="ph ph-github-logo"></i></div>
-        <div class="integration-name">GitHub</div>
-      </div>
-      <div class="integration-card reveal">
-        <div class="integration-icon" style="background:rgba(0,229,255,0.1);border-color:rgba(0,229,255,0.2)">
-          <i class="ph ph-table" style="color:var(--accent2)"></i>
-        </div>
-        <div class="integration-name">Airtable</div>
-      </div>
-      <div class="integration-card reveal">
-        <div class="integration-icon"><i class="ph ph-figma-logo"></i></div>
-        <div class="integration-name">Figma</div>
-      </div>
-      <div class="integration-card reveal">
-        <div class="integration-icon" style="background:rgba(108,99,255,0.1);border-color:rgba(108,99,255,0.2)">
-          <i class="ph ph-video-camera" style="color:var(--accent)"></i>
-        </div>
-        <div class="integration-name">Zoom</div>
-      </div>
-      <div class="integration-card reveal">
-        <div class="integration-icon" style="background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.2)">
-          <i class="ph ph-plus-circle" style="color:var(--accent5)"></i>
-        </div>
-        <div class="integration-name">+40 more</div>
-      </div>
+      <div class="integration-card reveal"><div class="integration-icon"><i class="ph ph-notion-logo"></i></div><div class="integration-name">Notion</div></div>
+      <div class="integration-card reveal"><div class="integration-icon"><i class="ph ph-slack-logo"></i></div><div class="integration-name">Slack</div></div>
+      <div class="integration-card reveal"><div class="integration-icon" style="background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.2)"><i class="ph ph-google-drive-logo" style="color:var(--accent5)"></i></div><div class="integration-name">Google Drive</div></div>
+      <div class="integration-card reveal"><div class="integration-icon" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.2)"><i class="ph ph-kanban" style="color:var(--accent4)"></i></div><div class="integration-name">Linear</div></div>
+      <div class="integration-card reveal"><div class="integration-icon" style="background:rgba(255,107,157,0.1);border-color:rgba(255,107,157,0.2)"><i class="ph ph-envelope-simple" style="color:var(--accent3)"></i></div><div class="integration-name">Gmail</div></div>
+      <div class="integration-card reveal"><div class="integration-icon"><i class="ph ph-github-logo"></i></div><div class="integration-name">GitHub</div></div>
+      <div class="integration-card reveal"><div class="integration-icon" style="background:rgba(0,229,255,0.1);border-color:rgba(0,229,255,0.2)"><i class="ph ph-table" style="color:var(--accent2)"></i></div><div class="integration-name">Airtable</div></div>
+      <div class="integration-card reveal"><div class="integration-icon"><i class="ph ph-figma-logo"></i></div><div class="integration-name">Figma</div></div>
+      <div class="integration-card reveal"><div class="integration-icon" style="background:rgba(108,99,255,0.1);border-color:rgba(108,99,255,0.2)"><i class="ph ph-video-camera" style="color:var(--accent)"></i></div><div class="integration-name">Zoom</div></div>
+      <div class="integration-card reveal"><div class="integration-icon" style="background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.2)"><i class="ph ph-plus-circle" style="color:var(--accent5)"></i></div><div class="integration-name">+40 more</div></div>
     </div>
   </div>
 </section>
@@ -403,12 +368,8 @@
         No credit card required. Full access to all features for 14 days.
       </p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <button class="btn btn-primary btn-xl">
-          <i class="ph ph-rocket-launch"></i> Start Free Trial
-        </button>
-        <a href="pricing.html" class="btn btn-outline btn-xl">
-          View Pricing <i class="ph ph-arrow-right"></i>
-        </a>
+        <button class="btn btn-primary btn-xl"><i class="ph ph-rocket-launch"></i> Start Free Trial</button>
+        <a href="pricing.html" class="btn btn-outline btn-xl">View Pricing <i class="ph ph-arrow-right"></i></a>
       </div>
     </div>
   </div>
@@ -419,38 +380,12 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="index.html" class="nav-logo">
-          <div class="nav-logo-icon"><i class="ph ph-lightning-slash"></i></div>
-          Nexus<span>AI</span>
-        </a>
+        <a href="index.html" class="nav-logo"><div class="nav-logo-icon"><i class="ph ph-lightning-slash"></i></div>Nexus<span>AI</span></a>
         <p class="footer-desc">AI productivity tools designed for the way modern teams actually think and work.</p>
       </div>
-      <div>
-        <div class="footer-col-title">Product</div>
-        <ul class="footer-links">
-          <li><a href="features.html">AI Writing</a></li>
-          <li><a href="features.html">Task Planner</a></li>
-          <li><a href="features.html">Summarizer</a></li>
-          <li><a href="features.html">Integrations</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Company</div>
-        <ul class="footer-links">
-          <li><a href="#">About</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Legal</div>
-        <ul class="footer-links">
-          <li><a href="#">Privacy</a></li>
-          <li><a href="#">Terms</a></li>
-          <li><a href="#">Security</a></li>
-        </ul>
-      </div>
+      <div><div class="footer-col-title">Product</div><ul class="footer-links"><li><a href="features.html">AI Writing</a></li><li><a href="features.html">Task Planner</a></li><li><a href="features.html">Summarizer</a></li><li><a href="features.html">Integrations</a></li></ul></div>
+      <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div><div class="footer-col-title">Legal</div><ul class="footer-links"><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Security</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">&copy; 2025 Nexus AI &middot; All rights reserved.</div>
@@ -463,8 +398,19 @@
   </div>
 </footer>
 
+<!-- COOKIE BANNER -->
+<div id="cookie-banner">
+  <div class="cookie-text">We use cookies to give you the best experience. By continuing, you agree to our <a href="#">Privacy Policy</a>.</div>
+  <div class="cookie-btns">
+    <button id="cookie-accept">Accept All</button>
+    <button id="cookie-decline">Decline</button>
+  </div>
+</div>
+
 <script src="js/main.js"></script>
 <script src="js/animations.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/features.js"></script>
 <script src="js/chatbot.js"></script>
 </body>
 </html>
